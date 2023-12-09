@@ -5,23 +5,16 @@ import { NavLink } from "react-router-dom";
 export const Search = ({ page }) => {
   return (
     <div className={s.main__search}>
-      <NavLink className={s.search__logo_link} to="/" target="_blank">
+      <NavLink className={s.search__logo_link} to="/">
         <img className={s.search__logo_img} src="/img/logo.png" alt="logo" />
       </NavLink>
-      <NavLink className={s.search__logo_mob_link} to="/" target="_blank">
+      <NavLink className={s.search__logo_mob_link} to="/">
         <img
           className={s.search__logo_mob_img}
           src="/img/logo-mob.png"
           alt="logo"
         />
       </NavLink>
-      {/* {page !== "main" ? (
-        <form className={s.menu__form} action="#">
-          <button className={cn(s.menu__btn, s.btn_hov02)} id="btnGoBack">
-            Вернуться на&nbsp;главную
-          </button>
-        </form>
-      ) : ( */}
         <form className={s.search__form} action="#">
           <input
             className={s.search__text}
@@ -37,7 +30,6 @@ export const Search = ({ page }) => {
           />
           <button className={cn(s.search__btn, s.btn_hov02)}>Найти</button>
         </form>
-      {/* )} */}
     </div>
   );
 };

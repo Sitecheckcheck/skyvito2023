@@ -15,7 +15,7 @@ export const ProfileSettings = () => {
                     </NavLink>
 
                 </div>
-                <NavLink className={s.settings__change_photo} href="" target="_self">
+                <NavLink className={s.settings__change_photo} to="/">
                     Заменить
                 </NavLink>
             </div>

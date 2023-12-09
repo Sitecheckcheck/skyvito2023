@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
 import s from "./productArticle.module.css";
 import cn from "classnames";
+import { ArticleButton } from "../articleButton/articleButton";
 
-export const ProductArticle = () => {
+export const ProductArticle = ({page='product'}) => {
   return (
     <div className={s.main__artic}>
       <div className={s.artic__content}>
@@ -50,7 +51,7 @@ export const ProductArticle = () => {
               <p className={s.article__city}>Санкт-Петербург</p>
               <NavLink
                 className={s.article__link}
-                href=""
+                to=""
                 target="_blank"
                 rel=""
               >
@@ -58,14 +59,8 @@ export const ProductArticle = () => {
               </NavLink>
             </div>
             <p className={s.article__price}>2 200 ₽</p>
-            <div className={s.article__btn_block}>
-              <button className={cn(s.article__btn, s.btn_redact, s.btn_hov02)}>
-                Редактировать
-              </button>
-              <button className={cn(s.article__btn, s.btn_remove, s.btn_hov02)}>
-                Снять с публикации
-              </button>
-            </div>
+
+            <ArticleButton page={page} />
 
             <div className={cn(s.article__author, s.author)}>
               <div className={s.author__img}>

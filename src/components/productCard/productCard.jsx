@@ -6,12 +6,12 @@ export const ProductCard = () => {
         <div className={styles.cards__item}>
         <div className={styles.cards__card}>
           <div className={styles.card__image}>
-            <NavLink to="/" target="_blank">
+            <NavLink to="/adv" target="_blank">
               <img src="#" alt="product" />
             </NavLink>
           </div>
           <div className={styles.card__content}>
-            <NavLink to="/" target="_blank">
+            <NavLink to="/adv" target="_blank">
               <h3 className={styles.card__title}>
                 Ракетка для большого тенниса Triumph Pro ST
               </h3>
