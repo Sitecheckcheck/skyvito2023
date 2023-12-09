@@ -1,7 +1,7 @@
 .main__container {
   max-width: 1178px;
   margin: 0 auto;
-  padding: 52px 10px 37px;
+  padding: 0px 10px 37px;
 }
 
 .main__h2 {
@@ -84,7 +84,7 @@
     text-align: center;
     position: relative;
   }
-
+/* 
   .main__h2::before {
     content: "";
     display: block;
@@ -99,17 +99,17 @@
     top: 9px;
     left: 13px;
     cursor: pointer;
-  }
+  } */
 
   .main__content {
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
-    position: fixed;
+    /* position: fixed;
     right: 0;
     left: 0;
     top: 134px;
-    bottom: 84px;
+    bottom: 84px; */
   }
 
   .cards {
