@@ -1,7 +1,7 @@
 import s from "./reviews.module.css";
 import cn from "classnames";
 
-export const Reviews = () => {
+export const Reviews = ({onFormClose}) => {
   const reviews = [
     {
       userImg: "/img/ggg",
@@ -28,8 +28,8 @@ export const Reviews = () => {
     <div className={s.container_bg}>
       <div className={s.modal__block}>
         <div className={s.modal__content}>
-          <h3 className={s.modal__title}>Отзывы о товаре</h3>
-          <div className={s.modal__btn_close}>
+          <h3 className={s.modal__title} onClick={onFormClose}>Отзывы о товаре</h3>
+          <div className={s.modal__btn_close} onClick={onFormClose}>
             <div className={s.modal__btn_close_line}></div>
           </div>
           <div className={s.modal__scroll}>

@@ -2,7 +2,7 @@
 import s from "./editProduct.module.css";
 import cn from "classnames";
 
-export const EditProduct = () => {
+export const EditProduct = ({onFormClose}) => {
   //   const navigate = useNavigate();
 
   const productName = "Ракетка для большого тенниса Triumph Pro STС Б/У";
@@ -15,8 +15,8 @@ export const EditProduct = () => {
     <div className={s.container_bg}>
       <div className={s.modal__block}>
         <div className={s.modal__content}>
-          <h3 className={s.modal__title}>Редактировать объявление</h3>
-          <div className={s.modal__btn_close}>
+          <h3 className={s.modal__title} onClick={onFormClose}>Редактировать объявление</h3>
+          <div className={s.modal__btn_close} onClick={onFormClose}>
             <div className={s.modal__btn_close_line}></div>
           </div>
           <form

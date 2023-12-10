@@ -1,9 +1,22 @@
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 import s from "./productArticle.module.css";
 import cn from "classnames";
 import { ArticleButton } from "../articleButton/articleButton";
+import { createPortal } from "react-dom";
+import {Reviews} from '../../pages/reviews/reviews';
+import {Modal} from '../modal/modal';
 
 export const ProductArticle = ({page='product'}) => {
+
+  const [isOpen, setIsOpen] = useState("");
+
+  const getModalForm = () => {
+    if (isOpen === "open") {
+      return <Reviews onFormClose={() => setIsOpen("")} />;
+    }
+  }
+
   return (
     <div className={s.main__artic}>
       <div className={s.artic__content}>
@@ -52,8 +65,9 @@ export const ProductArticle = ({page='product'}) => {
               <NavLink
                 className={s.article__link}
                 to=""
-                target="_blank"
+                // target="_blank"
                 rel=""
+                onClick={() => setIsOpen("open")}
               >
                 4 отзыва
               </NavLink>
@@ -76,6 +90,10 @@ export const ProductArticle = ({page='product'}) => {
           </div>
         </div>
       </div>
+      {createPortal(
+        <Modal isOpen={isOpen}>{getModalForm()}</Modal>,
+        document.body
+      )}
     </div>
   );
 };

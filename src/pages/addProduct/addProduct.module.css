@@ -378,7 +378,8 @@
   .modal__block {
     position: absolute;
     z-index: 5;
-    left: 0px;
+    /* left: 0px; */
+    left: calc(50% - (300px / 2));
     top: 55px;
     opacity: 1;
   }
