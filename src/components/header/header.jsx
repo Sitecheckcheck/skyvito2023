@@ -19,7 +19,7 @@ export const Header = ({ isAllowed, page = "notMain" }) => {
               className={cn(s.header__btn_putAd, s.btn_hov01)}
               id="btputAd"
               onClick={() => {
-                navigate(`/`);
+                navigate(`/add-product`);
               }}
             >
               Разместить объявление
@@ -34,6 +34,9 @@ export const Header = ({ isAllowed, page = "notMain" }) => {
           <button
             className={cn(s.header__btn_main_enter, s.btn_hov01)}
             id="btnMainEnter"
+            onClick={() => {
+              navigate(`/signin`);
+            }}
           >
             Вход в личный кабинет
           </button>

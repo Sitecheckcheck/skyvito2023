@@ -11,7 +11,7 @@ export const Footer = () => {
             </NavLink>
           </div>
           <div className={styles.footer__img}>
-            <NavLink to="/" target="_self">
+            <NavLink to="/add-product" target="_self">
               <img src="/img/icon_02.png" alt="home" />
             </NavLink>
           </div>

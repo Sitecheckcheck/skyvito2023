@@ -7,7 +7,7 @@ export const ProductsBox = ({ TitleBox = "Объявления" }) => {
       <h2 className={s.main__h2}>{TitleBox}</h2>
       <div className={s.main__content}>
         <div className={s.cards}>
-          <ProductCard />
+          <ProductCard TitleBox={TitleBox} />
         </div>
       </div>
     </div>

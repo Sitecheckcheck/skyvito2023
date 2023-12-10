@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom"
 import styles from "./productCard.module.css"
 
-export const ProductCard = () => {
+export const ProductCard = ({TitleBox}) => {
     return (
         <div className={styles.cards__item}>
         <div className={styles.cards__card}>
           <div className={styles.card__image}>
-            <NavLink to="/adv" target="_blank">
+            <NavLink to={ TitleBox === "Мои товары" ? "/my-adv" : "/adv" } target="_blank">
               <img src="#" alt="product" />
             </NavLink>
           </div>
