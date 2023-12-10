@@ -29,7 +29,7 @@
   }
   
   .card__title {
-    height: 52px;
+    /* height: 52px; */
     font-size: 22px;
     font-weight: 500;
     line-height: 26px;

@@ -101,16 +101,16 @@
     cursor: pointer;
   } */
 
-  .main__content {
+  /* .main__content {
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
-    /* position: fixed;
+    position: fixed;
     right: 0;
     left: 0;
     top: 134px;
-    bottom: 84px; */
-  }
+    bottom: 84px;
+  } */
 
   .cards {
     /* display: -ms-grid; */
