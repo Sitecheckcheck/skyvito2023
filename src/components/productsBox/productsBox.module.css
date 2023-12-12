@@ -39,7 +39,7 @@
   scrollbar-color: #ffffff #2e2e2e;
   scrollbar-width: thin;
   scrollbar-width: 0px;
-  height: 922px;
+  /* height: 922px; */
 }
 
 .cards::-webkit-scrollbar {

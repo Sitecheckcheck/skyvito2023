@@ -12,7 +12,7 @@ export const ProductCard = ({ TitleBox }) => {
         <div className={styles.cards__item} key={item.id}>
           <div className={styles.cards__card}>
             <div className={styles.card__image}>
-              <NavLink to={TitleBox === "Мои товары" ? "/my-adv" : "/adv"}>
+              <NavLink to={TitleBox === "Мои товары" ? "/my-adv" : `/adv/?id=${item.id}`}>
                 <img
                   src={
                     item.images[0]?.url

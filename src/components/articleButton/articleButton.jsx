@@ -5,8 +5,9 @@ import { createPortal } from "react-dom";
 import { Modal } from "../modal/modal";
 import { EditProduct } from "../../pages/editProduct/editProduct";
 
-export const ArticleButton = ({ page }) => {
+export const ArticleButton = ({ page, phone }) => {
   const [isOpen, setIsOpen] = useState("");
+  const [showTelefone, setShowTelefone] = useState(false);
 
   const getModalForm = () => {
     if (isOpen === "open") {
@@ -26,9 +27,10 @@ export const ArticleButton = ({ page }) => {
           </button>
         </>
       ) : (
-        <button className={cn(s.article__btn1, s.btn_hov02)}>
-          Показать&nbsp;телефон
-          <span>8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+        <button className={cn(s.article__btn1, s.btn_hov02)} onClick={() => setShowTelefone(true)}>
+          {showTelefone ? <h3>{phone}</h3> : <>Показать&nbsp;телефон
+          <span>{phone.substring(0,4)}&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span></>}
+          
         </button>
       )}
             {createPortal(
