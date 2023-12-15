@@ -170,7 +170,7 @@
           justify-content: center;
 }
 
-.modal__btn_signup_ent a {
+.modal__btn_signup_ent span {
   width: 100%;
   height: 100%;
   font-style: normal;
@@ -188,6 +188,15 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.error_box {
+  height: 30px;
+}
+
+.error_text {
+  line-height: 40px;
+  color: red;
 }
 
 @media screen and (max-width: 768px) {
