@@ -2,6 +2,7 @@ import s from "./signup.module.css";
 import cn from "classnames";
 import { useState } from "react";
 import { useAddUserMutation } from "../../store/authApi/authApi";
+import { useNavigate } from "react-router-dom";
 
 export const Signup = () => {
   const [email, setEmail] = useState("");
@@ -10,43 +11,53 @@ export const Signup = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [city, setCity] = useState("");
-  const [error, setError] = useState("");
+  const [errorText, setErrorText] = useState("");
+  const navigate = useNavigate();
 
-  const [handleSignUp] = useAddUserMutation();
+  const [register] = useAddUserMutation();
 
-  const handlButton = () => {
+  const onSubmit = async (event) => {
+    event.preventDefault();
     if (!email || !password) {
-      setError("Укажите email/пароль");
+      setErrorText("Укажите email/пароль");
       return;
     }
 
     if (password !== repeatPassword) {
-      setError("Пароли не совпадают");
+      setErrorText("Пароли не совпадают");
       return;
     }
 
     if (email.length < 3) {
-      setError("Введенный E-mail слишком короткий");
+      setErrorText("Введенный E-mail слишком короткий");
       return;
     }
 
     if (password.length < 6) {
-      setError("Введенный пароль слишком короткий");
-
+      setErrorText("Введенный пароль слишком короткий");
       return;
     }
-    
-    handleSignUp({ email, password, name, surname, city }).then((resp) => {
-      console.log(resp.status)
-    });
-    
+
+    const response = await register({ email, password, name, surname, city });
+
+    if (response.data) {
+      navigate("/");
+    } else if (response.error?.status === 400) {
+      setErrorText("такой пользователь уже есть");
+    } else {
+      setErrorText("ошибка сервера");
+    }
   };
-  
+
   return (
     <div className={s.container_signup}>
       <div className={s.modal__block}>
-        <form className={s.modal__form_login} id="formLogIn" action="#">
-          <div className={s.modal__logo}>
+        <form
+          className={s.modal__form_login}
+          id="formLogIn"
+          onSubmit={onSubmit}
+        >
+          <div className={s.modal__logo} onClick={() => navigate("/")}>
             <img src="../img/logo_modal.png" alt="logo" />
           </div>
           <input
@@ -57,7 +68,7 @@ export const Signup = () => {
             placeholder="email"
             onChange={(event) => {
               setEmail(event.target.value);
-              setError("");
+              setErrorText("");
             }}
           />
           <input
@@ -68,7 +79,7 @@ export const Signup = () => {
             placeholder="Пароль"
             onChange={(event) => {
               setPassword(event.target.value);
-              setError("");
+              setErrorText("");
             }}
           />
           <input
@@ -79,7 +90,7 @@ export const Signup = () => {
             placeholder="Повторите пароль"
             onChange={(event) => {
               setRepeatPassword(event.target.value);
-              setError("");
+              setErrorText("");
             }}
           />
           <input
@@ -115,14 +126,12 @@ export const Signup = () => {
           <button
             className={s.modal__btn_signup_ent}
             id="btnSign"
-            onClick={() => {
-              handlButton();
-            }}
+            type="submit"
           >
             <span>Зарегистрироваться</span>
           </button>
           <div className={s.error_box}>
-            <p className={s.error_text}>{error}</p>
+            <p className={s.error_text}>{errorText}</p>
           </div>
         </form>
       </div>

@@ -22,14 +22,17 @@ export const authApi = createApi({
         }),
       }),
     }),
-    getTokens: builder.query({
+    getTokens: builder.mutation({
       query: (body) => ({
         url: "/auth/login",
         headers: {
           "content-type": "application/json",
         },
         method: "POST",
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          email: body.email,
+          password: body.password,
+      }),
       }),
     }),
     updateTokens: builder.query({
@@ -47,6 +50,6 @@ export const authApi = createApi({
 
 export const {
   useAddUserMutation,
-  useGetTokensQuery,
+  useGetTokensMutation,
   useUpdateTokensQuery,
 } = authApi;
