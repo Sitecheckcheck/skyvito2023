@@ -33,8 +33,7 @@ export const MainPage = () => {
 
   return (
     <>
-      <Header isAllowed={false} page="main" />
-      {/* <button onClick={() => {handlToken()}} >878967967</button> */}
+      <Header page="main" />
       <Search page="main" />
       <ProductsBox />
       <Footer />

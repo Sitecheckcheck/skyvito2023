@@ -9,16 +9,16 @@ export const authApi = createApi({
     addUser: builder.mutation({
       query: (body) => ({
         headers: {
-          "content-type": "application/json",
+          "Content-type": "application/json",
         },
         url: "auth/register",
         method: "POST",
         body: JSON.stringify({
-            email: body.email,
-            password: body.password,
-            name: body.name,
-            surname: body.surname,
-            city: body.city,
+          email: body.email,
+          password: body.password,
+          name: body.name,
+          surname: body.surname,
+          city: body.city,
         }),
       }),
     }),
@@ -26,23 +26,27 @@ export const authApi = createApi({
       query: (body) => ({
         url: "/auth/login",
         headers: {
-          "content-type": "application/json",
+          "Content-type": "application/json",
         },
         method: "POST",
         body: JSON.stringify({
           email: body.email,
           password: body.password,
-      }),
+        }),
       }),
     }),
-    updateTokens: builder.query({
+    updateTokens: builder.mutation({
       query: (body) => ({
         url: "/auth/login",
         headers: {
-          "content-type": "application/json",
+          "Content-type": "application/json",
+          Authorization: `Bearer ${body.access_token}`,
         },
         method: "PUT",
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          access_token: body.access_token,
+          refresh_token: body.refresh_token,
+        }),
       }),
     }),
   }),
@@ -51,5 +55,5 @@ export const authApi = createApi({
 export const {
   useAddUserMutation,
   useGetTokensMutation,
-  useUpdateTokensQuery,
+  useUpdateTokensMutation,
 } = authApi;

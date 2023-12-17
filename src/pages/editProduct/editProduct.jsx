@@ -2,7 +2,7 @@
 import s from "./editProduct.module.css";
 import cn from "classnames";
 
-export const EditProduct = ({onFormClose}) => {
+export const EditProduct = ({ onFormClose }) => {
   //   const navigate = useNavigate();
 
   const productName = "Ракетка для большого тенниса Triumph Pro STС Б/У";
@@ -15,7 +15,9 @@ export const EditProduct = ({onFormClose}) => {
     <div className={s.container_bg}>
       <div className={s.modal__block}>
         <div className={s.modal__content}>
-          <h3 className={s.modal__title} onClick={onFormClose}>Редактировать объявление</h3>
+          <h3 className={s.modal__title} onClick={onFormClose}>
+            Редактировать объявление
+          </h3>
           <div className={s.modal__btn_close} onClick={onFormClose}>
             <div className={s.modal__btn_close_line}></div>
           </div>
@@ -25,7 +27,7 @@ export const EditProduct = ({onFormClose}) => {
             action="#"
           >
             <div className={s.form_newArt__block}>
-              <label for="name">Название</label>
+              <label htmlFor="name">Название</label>
               <input
                 className={s.form_newArt__input}
                 type="text"
@@ -36,7 +38,7 @@ export const EditProduct = ({onFormClose}) => {
               />
             </div>
             <div className={s.form_newArt__block}>
-              <label for="text">Описание</label>
+              <label htmlFor="text">Описание</label>
               <textarea
                 className={s.form_newArt__area}
                 name="text"
@@ -66,7 +68,7 @@ export const EditProduct = ({onFormClose}) => {
               </div>
             </div>
             <div className={cn(s.form_newArt__block, s.block_price)}>
-              <label for="price">Цена</label>
+              <label htmlFor="price">Цена</label>
               <input
                 className={s.form_newArt__input_price}
                 type="text"

@@ -1,12 +1,14 @@
 import s from "./addProduct.module.css";
 import cn from "classnames";
 
-export const AddProduct = ({onFormClose}) => {
+export const AddProduct = ({ onFormClose }) => {
   return (
     <div className={s.container_bg}>
       <div className={s.modal__block}>
         <div className={s.modal__content}>
-          <h3 className={s.modal__title} onClick={onFormClose}>Новое объявление</h3>
+          <h3 className={s.modal__title} onClick={onFormClose}>
+            Новое объявление
+          </h3>
           <div className={s.modal__btn_close} onClick={onFormClose}>
             <div className={s.modal__btn_close_line}></div>
           </div>

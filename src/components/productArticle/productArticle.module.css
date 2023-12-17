@@ -45,9 +45,9 @@
   -webkit-box-align: top;
   -ms-flex-align: top;
   align-items: top;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  /* -webkit-box-pack: center;
+  -ms-flex-pack: center; */
+  /* justify-content: center; */
 }
 
 .article__left {
@@ -180,7 +180,8 @@
   flex-direction: row;
   -webkit-box-align: start;
   -ms-flex-align: start;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 
 .author__img {

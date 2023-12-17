@@ -1,14 +1,17 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import s from "./signin.module.css";
 import cn from "classnames";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useGetTokensMutation } from "../../store/authApi/authApi";
+import { Allowed } from "../../context/isAllowed";
+
 
 export const Signin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
+  const {setIsAllowed} = useContext(Allowed)
 
   const [login] = useGetTokensMutation();
 
@@ -22,6 +25,9 @@ export const Signin = () => {
     const response = await login({ email, password });
 
     if (response.data) {
+      setIsAllowed(true)
+      localStorage.setItem("access_token", response.data.access_token)
+      localStorage.setItem("refresh_token", response.data.refresh_token)
       navigate("/");
     } else if (response.error?.status === 401) {
       setErrorText("неверный email/пароль");
