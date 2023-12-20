@@ -1,3 +1,3 @@
-import React from 'react';
+// import React from 'react';
 
-export const Allowed = React.createContext();
+// export const Allowed = React.createContext();

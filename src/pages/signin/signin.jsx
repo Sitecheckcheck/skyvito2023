@@ -1,19 +1,22 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import s from "./signin.module.css";
 import cn from "classnames";
-import { useState, useContext } from "react";
-import { useGetTokensMutation } from "../../store/authApi/authApi";
-import { Allowed } from "../../context/isAllowed";
+import { useState } from "react";
+// import { useGetTokensMutation } from "../../store/authApi/authApi";
 
+
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/userSlise";
+import { getTokens, getUser } from "../../api";
 
 export const Signin = () => {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
-  const {setIsAllowed} = useContext(Allowed)
-
-  const [login] = useGetTokensMutation();
+  const [disabled, setDisabled] = useState(false);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -22,17 +25,28 @@ export const Signin = () => {
       return;
     }
 
-    const response = await login({ email, password });
+    try {
+      setDisabled(true);
+      const tokens = await getTokens(email, password);
+      const user = await getUser(tokens.access_token);
 
-    if (response.data) {
-      setIsAllowed(true)
-      localStorage.setItem("access_token", response.data.access_token)
-      localStorage.setItem("refresh_token", response.data.refresh_token)
-      navigate("/");
-    } else if (response.error?.status === 401) {
-      setErrorText("неверный email/пароль");
-    } else {
-      setErrorText("ошибка сервера");
+      dispatch(
+        setUser({
+          email: user.email,
+          name: user.name,
+          access_token: tokens.access_token,
+          refresh_token: tokens.refresh_token,
+        })
+      );
+      localStorage.setItem("email", user.email);
+      localStorage.setItem("name", user.name);
+      localStorage.setItem("access_token", tokens.access_token.toString());
+      localStorage.setItem("refresh_token", tokens.refresh_token.toString());
+      navigate('/');
+    } catch (error) {
+      setErrorText(error.message);
+    } finally {
+      setDisabled(false);
     }
   };
 
@@ -42,7 +56,9 @@ export const Signin = () => {
         <form
           className={s.modal__form_login}
           id="formLogIn"
-          onSubmit={onSubmit}
+          onSubmit={
+            onSubmit
+          }
         >
           <div className={s.modal__logo} onClick={() => navigate("/")}>
             <img src="../img/logo_modal.png" alt="logo" />
@@ -72,7 +88,11 @@ export const Signin = () => {
           <button className={s.modal__btn_enter} id="btnEnter" type="submit">
             <span>Войти</span>
           </button>
-          <button className={s.modal__btn_signup} id="btnSignUp">
+          <button
+            className={s.modal__btn_signup}
+            id="btnSignUp"
+            disabled={disabled}
+          >
             <NavLink to="/signup">Зарегистрироваться</NavLink>
           </button>
           <div className={s.error_box}>

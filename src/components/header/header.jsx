@@ -1,16 +1,17 @@
 import cn from "classnames";
 import s from "./header.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Modal } from "../modal/modal";
 import { AddProduct } from "../../pages/addProduct/addProduct";
-import { Allowed } from "../../context/isAllowed";
+import { useAuth } from "../../hooks/use-auth";
 
 export const Header = ({ page = "notMain" }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState("");
-  const { isAllowed } = useContext(Allowed);
+  // const { isAllowed } = useContext(Allowed);
+  const { isAllowed } = useAuth();
 
   const getModalForm = () => {
     if (isOpen === "open") {

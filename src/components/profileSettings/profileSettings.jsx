@@ -27,7 +27,7 @@ export const ProfileSettings = () => {
                   id="settings-fname"
                   name="fname"
                   type="text"
-                  value="Ан"
+                  defaultValue="Ан"
                   placeholder=""
                 />
               </div>
@@ -39,7 +39,7 @@ export const ProfileSettings = () => {
                   id="settings-lname"
                   name="lname"
                   type="text"
-                  value="Городецкий"
+                  defaultValue="Городецкий"
                   placeholder=""
                 />
               </div>
@@ -51,7 +51,7 @@ export const ProfileSettings = () => {
                   id="settings-city"
                   name="city"
                   type="text"
-                  value="Санкт-Петербург"
+                  defaultValue="Санкт-Петербург"
                   placeholder=""
                 />
               </div>
@@ -63,7 +63,7 @@ export const ProfileSettings = () => {
                   id="settings-phone"
                   name="phone"
                   type="tel"
-                  value="89161234567"
+                  defaultValue="89161234567"
                   placeholder="+79161234567"
                 />
               </div>

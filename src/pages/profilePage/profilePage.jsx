@@ -5,10 +5,12 @@ import { Footer } from "../../components/footer/footer";
 import s from "./profilePage.module.css";
 import { MainMenu } from "../../components/mainMenu/mainMenu";
 import { ProfileSettings } from "../../components/profileSettings/profileSettings";
+import { useAuth } from "../../hooks/use-auth";
+
 
 export const ProfilePage = () => {
-  const userName = "Антон";
-
+  const { name } = useAuth();
+  const userName = name ? name : "Пользователь"
   return (
     <>
       <Header isAllowed={true} />

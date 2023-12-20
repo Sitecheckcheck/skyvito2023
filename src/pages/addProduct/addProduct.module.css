@@ -374,6 +374,15 @@
   position: relative;
 }
 
+.error_box {
+  height: 30px;
+}
+
+.error_text {
+  line-height: 40px;
+  color: red;
+}
+
 @media screen and (max-width: 600px) {
   .modal__block {
     position: absolute;

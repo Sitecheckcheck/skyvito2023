@@ -1,8 +1,8 @@
 import s from "./signup.module.css";
 import cn from "classnames";
 import { useState } from "react";
-import { useAddUserMutation } from "../../store/authApi/authApi";
 import { useNavigate } from "react-router-dom";
+import { addUser } from "../../api";
 
 export const Signup = () => {
   const [email, setEmail] = useState("");
@@ -12,9 +12,8 @@ export const Signup = () => {
   const [surname, setSurname] = useState("");
   const [city, setCity] = useState("");
   const [errorText, setErrorText] = useState("");
+  const [disabled, setDisabled] = useState(false)
   const navigate = useNavigate();
-
-  const [register] = useAddUserMutation();
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -38,14 +37,14 @@ export const Signup = () => {
       return;
     }
 
-    const response = await register({ email, password, name, surname, city });
-
-    if (response.data) {
-      navigate("/");
-    } else if (response.error?.status === 400) {
-      setErrorText("такой пользователь уже есть");
-    } else {
-      setErrorText("ошибка сервера");
+    try {
+      setDisabled(true)
+      await addUser( email, password, name, surname, city );
+      navigate("/")
+    } catch (error) {
+      setErrorText(error.message)
+    } finally {
+      setDisabled(false)
     }
   };
 
@@ -127,6 +126,7 @@ export const Signup = () => {
             className={s.modal__btn_signup_ent}
             id="btnSign"
             type="submit"
+            disabled={disabled}
           >
             <span>Зарегистрироваться</span>
           </button>
