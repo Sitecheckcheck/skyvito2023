@@ -6,11 +6,22 @@ import s from "./profilePage.module.css";
 import { MainMenu } from "../../components/mainMenu/mainMenu";
 import { ProfileSettings } from "../../components/profileSettings/profileSettings";
 import { useAuth } from "../../hooks/use-auth";
+import { useGetMeProductsQuery } from "../../store/productsApi/productsApi";
+import { useNavigate } from "react-router-dom";
 
 
 export const ProfilePage = () => {
   const { name } = useAuth();
   const userName = name ? name : "Пользователь"
+  const {data, isLoading ,error} = useGetMeProductsQuery(localStorage.getItem("access_token"))
+  const navigate = useNavigate()
+
+  if (isLoading) return <h1 style={{textAlign: "center", marginTop: "50px"}}>Loading...</h1>
+
+  if (!isLoading && error?.status === 401) {
+    navigate('/signin')
+  }
+
   return (
     <>
       <Header isAllowed={true} />
@@ -21,7 +32,7 @@ export const ProfilePage = () => {
           <ProfileSettings />
         </div>
         <div className={s.main__content}>
-          <ProductsBox TitleBox="Мои товары" />
+          <ProductsBox TitleBox="Мои товары" products={data} />
         </div>
       </div>
 

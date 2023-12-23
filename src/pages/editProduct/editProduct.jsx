@@ -1,15 +1,34 @@
-// import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import s from "./editProduct.module.css";
 import cn from "classnames";
+import { useNavigate } from "react-router-dom";
+import { useUpdateProductMutation } from "../../store/productsApi/productsApi";
 
-export const EditProduct = ({ onFormClose }) => {
-  //   const navigate = useNavigate();
+export const EditProduct = ({ onFormClose, product }) => {
+  const [errorText, setErrorText] = useState("");
+  const [title, setTitle] = useState(product.title);
+  const [description, setDescription] = useState(product.description);
+  const [price, setPrice] = useState(product.price);
+  const navigate = useNavigate();
+  const [updateProduct] = useUpdateProductMutation()
 
-  const productName = "Ракетка для большого тенниса Triumph Pro STС Б/У";
-  const productDiscription =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-  const productImges = [{ img: "/img/pic5.jpg" }];
-  const productPrice = "2200";
+  const productImges = product.images;
+
+  const handleEditProduct = async (event) => {
+    event.preventDefault();
+
+    if (!title || !description || !price) {
+      setErrorText("Не все поля заполнены");
+    } else {
+      const response = await updateProduct({id: product.id, title, description, price: Number(price)});
+
+      if (response.error?.status === 401) {
+        navigate('/signin')
+      }
+      onFormClose()
+    }
+    
+  };
 
   return (
     <div className={s.container_bg}>
@@ -24,7 +43,7 @@ export const EditProduct = ({ onFormClose }) => {
           <form
             className={cn(s.modal__form_newArt, s.form_newArt)}
             id="formNewArt"
-            action="#"
+            onSubmit={handleEditProduct}
           >
             <div className={s.form_newArt__block}>
               <label htmlFor="name">Название</label>
@@ -34,7 +53,11 @@ export const EditProduct = ({ onFormClose }) => {
                 name="name"
                 id="formName"
                 placeholder="Введите название"
-                value={productName}
+                value={title}
+                onChange={(event) => {
+                  setTitle(event.target.value);
+                  setErrorText("");
+                }}
               />
             </div>
             <div className={s.form_newArt__block}>
@@ -46,7 +69,11 @@ export const EditProduct = ({ onFormClose }) => {
                 cols="auto"
                 rows="10"
                 placeholder="Введите описание"
-                value={productDiscription}
+                value={description}
+                onChange={(event) => {
+                  setDescription(event.target.value);
+                  setErrorText("");
+                }}
               ></textarea>
             </div>
             <div className={s.form_newArt__block}>
@@ -74,7 +101,11 @@ export const EditProduct = ({ onFormClose }) => {
                 type="text"
                 name="price"
                 id="formName"
-                value={productPrice}
+                value={price}
+                onChange={(event) => {
+                  setPrice(event.target.value);
+                  setErrorText("");
+                }}
               />
               <div className={s.form_newArt__input_price_cover}></div>
             </div>
@@ -82,9 +113,13 @@ export const EditProduct = ({ onFormClose }) => {
             <button
               className={cn(s.form_newArt__btn_pub, s.btn_hov02)}
               id="btnPublish"
+              type="submit"
             >
               Опубликовать
             </button>
+            <div className={s.error_box}>
+              <p className={s.error_text}>{errorText}</p>
+            </div>
           </form>
         </div>
       </div>

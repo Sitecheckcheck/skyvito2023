@@ -70,7 +70,7 @@ export const ProductArticle = ({ page = "product", product }) => {
             </div>
             <p className={s.article__price}>{product.price} ₽</p>
 
-            <ArticleButton page={page} phone={product.user.phone}/>
+            <ArticleButton page={page} phone={product.user.phone} product={product} />
 
             <div className={cn(s.article__author, s.author)}>
               <div className={s.author__img}>

@@ -1,14 +1,14 @@
 import cn from "classnames";
 import { Header } from "../../components/header/header";
 import { Footer } from "../../components/footer/footer";
-import s from "./advPage.module.css";
+import s from "./adsPage.module.css";
 import { MainMenu } from "../../components/mainMenu/mainMenu";
 import { ProductArticle } from "../../components/productArticle/productArticle";
-import { useGetOneProductQuery } from "../../store/oneProductApi/oneProductApi";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
+import { useGetOneProductQuery } from "../../store/productsApi/productsApi";
 
-export const AdvPage = () => {
+export const AdsPage = () => {
   const location = useLocation();
   const query = queryString.parse(location.search);
   const product = useGetOneProductQuery(query.id);
@@ -16,7 +16,7 @@ export const AdvPage = () => {
 
   return (
     <>
-      <Header isAllowed={true} />
+      <Header />
       <div className={s.main}>
         <MainMenu />
         {productData ? (

@@ -2,72 +2,33 @@ import { useState } from "react";
 import { useAddProductTextMutation } from "../../store/productsApi/productsApi";
 import s from "./addProduct.module.css";
 import cn from "classnames";
-import { updateToken } from "../../api";
 import { useNavigate } from "react-router-dom";
 
 export const AddProduct = ({ onFormClose }) => {
-  const [addProductText] = useAddProductTextMutation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(null);
   const [errorText, setErrorText] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [addProductText, {isLoading}] = useAddProductTextMutation()
+
+  if (isLoading) return <h1 style={{textAlign: "center", marginTop: "50px"}}>Loading...</h1>
 
   const handleAddProduct = async (event) => {
     event.preventDefault();
 
     if (!title || !description || !price) {
       setErrorText("Не все поля заполнены");
-      return;
-    }
+    } else {
+      const access = localStorage.getItem("access_token")
+      const response = await addProductText({access, title, description, price});
 
-    try {
-      await addProductText({
-        access_token: localStorage.getItem("access_token"),
-        ads: {
-          title: title,
-          description: description,
-          price: price,
-        },
-      });
-  
-      navigate('/profile')
-
-    } catch (error) {
-      console.log(error)
-    }
-
-    const result = await addProductText({
-      access_token: localStorage.getItem("access_token"),
-      ads: {
-        title: title,
-        description: description,
-        price: price,
-      },
-    });
-
-    if (result.error?.status === 401) {
-      const newToken = await updateToken(localStorage.getItem("access_token"), localStorage.getItem("refresh_token"));
-      const newResult = await addProductText({
-        access_token: newToken.access_token,
-        ads: {
-          title: title,
-          description: description,
-          price: price,
-        },
-      });
-      
-      if (newResult.error?.status === 401) {
+      if (response.error?.status === 401) {
         navigate('/signin')
       }
+      onFormClose()
     }
-
-
-    console.log(result)
-    navigate('/profile')
     
-
-
   };
 
   return (
@@ -83,7 +44,6 @@ export const AddProduct = ({ onFormClose }) => {
           <form
             className={cn(s.modal__form_newArt, s.form_newArt)}
             id="formNewArt"
-            action="#"
             onSubmit={handleAddProduct}
           >
             <div className={s.form_newArt__block}>
@@ -144,6 +104,7 @@ export const AddProduct = ({ onFormClose }) => {
             <button
               className={cn(s.form_newArt__btn_pub, s.btn_hov02)}
               id="btnPublish"
+              type="submit"
             >
               Опубликовать
             </button>

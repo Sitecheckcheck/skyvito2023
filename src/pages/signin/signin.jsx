@@ -2,9 +2,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import s from "./signin.module.css";
 import cn from "classnames";
 import { useState } from "react";
-// import { useGetTokensMutation } from "../../store/authApi/authApi";
-
-
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlise";
 import { getTokens, getUser } from "../../api";
@@ -28,7 +25,7 @@ export const Signin = () => {
     try {
       setDisabled(true);
       const tokens = await getTokens(email, password);
-      const user = await getUser(tokens.access_token);
+      const user = await getUser(tokens.access_token, tokens.refresh_token);
 
       dispatch(
         setUser({
@@ -91,6 +88,7 @@ export const Signin = () => {
           <button
             className={s.modal__btn_signup}
             id="btnSignUp"
+            type="submit"
             disabled={disabled}
           >
             <NavLink to="/signup">Зарегистрироваться</NavLink>
