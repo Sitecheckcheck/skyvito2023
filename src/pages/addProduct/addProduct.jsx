@@ -26,7 +26,11 @@ export const AddProduct = ({ onFormClose }) => {
       if (response.error?.status === 401) {
         navigate('/signin')
       }
-      onFormClose()
+
+      if (response.error?.status === 422) {
+        setErrorText('введены не корректные данные')
+      } 
+      navigate(`/my-ads/?id=${response.data?.id}`)
     }
     
   };

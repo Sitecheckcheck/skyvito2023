@@ -1,29 +1,27 @@
+import { useState } from "react";
 import s from "./reviews.module.css";
 import cn from "classnames";
+import { useCreateCommentMutation } from "../../store/productsApi/productsApi";
+import { useNavigate } from "react-router-dom";
+import { DateBlock } from "../../components/dateBlock/dateBlock";
 
-export const Reviews = ({ onFormClose }) => {
-  const reviews = [
-    {
-      userImg: "/img/ggg",
-      userName: "Олег",
-      date: "14 августа",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipiscing",
-    },
-    {
-      userImg: "/img/ggg",
-      userName: "Вася",
-      date: "15 августа",
-      comment:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    {
-      userImg: "/img/ggg",
-      userName: "Алеша",
-      date: "16 августа",
-      comment:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-  ];
+export const Reviews = ({ onFormClose, reviews, id }) => {
+
+  const [textComment, setTextComment] = useState('')
+  const [errorText, setErrorText] = useState('')
+  const [createComment] = useCreateCommentMutation()
+  const navigate = useNavigate();
+
+  const addComment = async () => {
+    
+    const response = await createComment({id: id, textComment: textComment})
+    if (response.error?.status === 401) {
+      navigate('/signin')
+    }
+    onFormClose();
+  }
+
+
   return (
     <div className={s.container_bg}>
       <div className={s.modal__block}>
@@ -35,10 +33,8 @@ export const Reviews = ({ onFormClose }) => {
             <div className={s.modal__btn_close_line}></div>
           </div>
           <div className={s.modal__scroll}>
-            <form
+            <div
               className={cn(s.modal__form_newArt, s.form_newArt)}
-              id="formNewArt"
-              action="#"
             >
               <div className={s.form_newArt__block}>
                 <label htmlFor="text">Добавить отзыв</label>
@@ -49,19 +45,28 @@ export const Reviews = ({ onFormClose }) => {
                   cols="auto"
                   rows="5"
                   placeholder="Введите описание"
+                  value={textComment}
+                  onChange={(event) => {
+                    setTextComment(event.target.value);
+                    setErrorText("");
+                  }}
                 ></textarea>
               </div>
               <button
                 className={cn(s.form_newArt__btn_pub, s.btn_hov02)}
                 id="btnPublish"
+                onClick={addComment}
               >
                 Опубликовать
               </button>
-            </form>
+              <div className={s.error_box}>
+            <p className={s.error_text}>{errorText}</p>
+          </div>
+            </div>
 
             <div className={cn(s.modal__reviews)}>
               {reviews?.map((item) => (
-                <div className={cn(s.reviews__review)}>
+                <div className={cn(s.reviews__review)} key={item.id}>
                   <div className={s.review__item}>
                     <div className={s.review__left}>
                       <div className={s.review__img}>
@@ -70,13 +75,13 @@ export const Reviews = ({ onFormClose }) => {
                     </div>
                     <div className={s.review__right}>
                       <p className={cn(s.review__name, s.font_t)}>
-                        {item.userName} <span>{item.date}</span>
+                        {item.author.name ? item.author.name : 'без имени'} <span><DateBlock time={item.created_on} type="card" /></span>
                       </p>
                       <h5 className={cn(s.review__title, s.font_t)}>
                         Комментарий
                       </h5>
                       <p className={cn(s.review__text, s.font_t)}>
-                        {item.comment}
+                        {item.text}
                       </p>
                     </div>
                   </div>

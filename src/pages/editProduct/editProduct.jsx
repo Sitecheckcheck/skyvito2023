@@ -1,18 +1,50 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import s from "./editProduct.module.css";
 import cn from "classnames";
 import { useNavigate } from "react-router-dom";
-import { useUpdateProductMutation } from "../../store/productsApi/productsApi";
+import {
+  useAddProductImageMutation,
+  useDeleteProductImageMutation,
+  useUpdateProductMutation,
+} from "../../store/productsApi/productsApi";
 
 export const EditProduct = ({ onFormClose, product }) => {
   const [errorText, setErrorText] = useState("");
   const [title, setTitle] = useState(product.title);
-  const [description, setDescription] = useState(product.description);
-  const [price, setPrice] = useState(product.price);
+  const [description, setDescription] = useState(product?.description);
+  const [price, setPrice] = useState(product?.price);
   const navigate = useNavigate();
-  const [updateProduct] = useUpdateProductMutation()
+  const [updateProduct] = useUpdateProductMutation();
+  const [addImg] = useAddProductImageMutation();
+  const [deleteImg] = useDeleteProductImageMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const filePicker = useRef(null);
 
-  const productImges = product.images;
+  const handleDelImg = async (url) => {
+    setIsLoading(true);
+    const response = await deleteImg({ id: product.id, url: url });
+    setIsLoading(false);
+    if (response.error?.status === 401) {
+      navigate("/signin");
+    }
+  };
+
+  const handleUpload = async (file) => {
+    setIsLoading(true);
+    const response = await addImg({ id: product.id, file: file });
+    setIsLoading(false);
+    if (response.error?.status === 401) {
+      navigate("/signin");
+    }
+  };
+
+  const handleImgAdd = (event) => {
+    handleUpload(event.target.files[0]);
+  };
+
+  const handlePick = () => {
+    filePicker.current.click();
+  };
 
   const handleEditProduct = async (event) => {
     event.preventDefault();
@@ -20,15 +52,31 @@ export const EditProduct = ({ onFormClose, product }) => {
     if (!title || !description || !price) {
       setErrorText("Не все поля заполнены");
     } else {
-      const response = await updateProduct({id: product.id, title, description, price: Number(price)});
+      const response = await updateProduct({
+        id: product.id,
+        title,
+        description,
+        price: Number(price),
+      });
 
       if (response.error?.status === 401) {
-        navigate('/signin')
+        navigate("/signin");
       }
-      onFormClose()
+      onFormClose();
     }
-    
   };
+
+  if (isLoading) {
+    return (
+      <div className={s.container_bg}>
+        <div className={s.modal__block}>
+          <div className={s.modal__content}>
+            <h2>Loading...</h2>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={s.container_bg}>
@@ -77,20 +125,40 @@ export const EditProduct = ({ onFormClose, product }) => {
               ></textarea>
             </div>
             <div className={s.form_newArt__block}>
-              <p className={s.form_newArt__p}>
+              <label className={s.form_newArt__p} htmlFor="price">
                 Фотографии товара<span>не более 5 фотографий</span>
-              </p>
+              </label>
+              <input
+                className={s.hidden}
+                type="file"
+                ref={filePicker}
+                // multiple
+                onChange={handleImgAdd}
+                accept="image/*, .png, .jpg, .gif, .web"
+              ></input>
+
               <div className={s.form_newArt__bar_img}>
-                {productImges.length !== 0
-                  ? productImges.map((item) => (
-                      <div className={s.form_newArt__img}>
-                        <img src={item.img} alt="" />
+                {product?.images.length !== 0
+                  ? product?.images.map((item) => (
+                      <div className={s.form_newArt__img} key={item.id}>
+                        <img src={`http://localhost:8090/${item.url}`} alt="" />
+                        <div
+                          className={s.b_pict__close}
+                          onClick={() => {
+                            handleDelImg(item.url);
+                          }}
+                        >
+                          x
+                        </div>
                       </div>
                     ))
                   : ""}
                 <div className={s.form_newArt__img}>
                   <img src="" alt="" />
-                  <div className={s.form_newArt__img_cover}></div>
+                  <div
+                    className={s.form_newArt__img_cover}
+                    onClick={handlePick}
+                  ></div>
                 </div>
               </div>
             </div>

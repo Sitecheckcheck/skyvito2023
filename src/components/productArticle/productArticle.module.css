@@ -159,6 +159,7 @@
   font-size: 16px;
   line-height: 21px;
   color: #009ee4;
+  cursor: pointer;
 }
 
 .article__price {

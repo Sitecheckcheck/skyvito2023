@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import s from "./productArticle.module.css";
 import cn from "classnames";
@@ -7,15 +6,16 @@ import { createPortal } from "react-dom";
 import { Reviews } from "../../pages/reviews/reviews";
 import { Modal } from "../modal/modal";
 import { DateBlock } from "../dateBlock/dateBlock";
+import { useGetAdsCommentsQuery } from "../../store/productsApi/productsApi";
 
 export const ProductArticle = ({ page = "product", product }) => {
   const [isOpen, setIsOpen] = useState("");
   const [mainImg, setMainImg] = useState(product?.images[0]?.url);
-  
+  const comments = useGetAdsCommentsQuery({ id: product.id });
 
   const getModalForm = () => {
     if (isOpen === "open") {
-      return <Reviews onFormClose={() => setIsOpen("")} />;
+      return <Reviews onFormClose={() => setIsOpen("")} reviews={comments.data || []} id={product.id} />;
     }
   };
 
@@ -36,7 +36,11 @@ export const ProductArticle = ({ page = "product", product }) => {
             </div>
             <div className={s.article__img_bar}>
               {product?.images.map((item) => (
-                <div className={s.article__img_bar_div} key={item.id} onClick={() => setMainImg(item.url)}>
+                <div
+                  className={s.article__img_bar_div}
+                  key={item.id}
+                  onClick={() => setMainImg(item.url)}
+                >
                   <img src={`http://localhost:8090/${item.url}`} alt="" />
                 </div>
               ))}
@@ -58,19 +62,20 @@ export const ProductArticle = ({ page = "product", product }) => {
                 <DateBlock time={product?.created_on} type="card" />
               </p>
               <p className={s.article__city}>{product?.user?.city}</p>
-              <NavLink
-                className={s.article__link}
-                to=""
-                // target="_blank"
-                rel=""
-                onClick={() => setIsOpen("open")}
-              >
-                4 отзыва
-              </NavLink>
+              <p className={s.article__link} onClick={() => setIsOpen("open")}>
+                {comments.status === "fulfilled" &&
+                  (comments?.data?.length === 0
+                    ? "нет отзывов"
+                    : `${comments?.data?.length} отзыва`)}
+              </p>
             </div>
             <p className={s.article__price}>{product.price} ₽</p>
 
-            <ArticleButton page={page} phone={product.user.phone} product={product} />
+            <ArticleButton
+              page={page}
+              phone={product.user.phone}
+              product={product}
+            />
 
             <div className={cn(s.article__author, s.author)}>
               <div className={s.author__img}>

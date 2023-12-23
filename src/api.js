@@ -101,78 +101,78 @@ export async function getUser(access_token, refresh_token) {
   return data;
 }
 
-export async function addProductText(access_token, title, description, price) {
-  let response = await fetch(`${baseURL}/adstext`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${access_token}`,
-    },
-    body: {
-      title: title,
-      description: description,
-      price: price,
-    },
-  });
+// export async function addProductText(access_token, title, description, price) {
+//   let response = await fetch(`${baseURL}/adstext`, {
+//     method: "POST",
+//     headers: {
+//       "content-type": "application/json",
+//       Authorization: `Bearer ${access_token}`,
+//     },
+//     body: {
+//       title: title,
+//       description: description,
+//       price: price,
+//     },
+//   });
 
-  if (!response.ok) {
-    if (response.status === 401) {
+//   if (!response.ok) {
+//     if (response.status === 401) {
 
-      // const newToken = await updateToken(access_token, localStorage.getItem("refresh_token"));
+//       // const newToken = await updateToken(access_token, localStorage.getItem("refresh_token"));
 
-      // response = await fetch(`${baseURL}/adstext`, {
-      //   method: "POST",
-      //   headers: {
-      //     "content-type": "application/json",
-      //     Authorization: `Bearer ${newToken.access_token}`,
-      //   },
-      //   body: {
-      //     title: title,
-      //     description: description,
-      //     price: price,
-      //   },
-      // });
-    } else {
-      throw new Error("Ошибка сервера");
-    }
-  }
+//       // response = await fetch(`${baseURL}/adstext`, {
+//       //   method: "POST",
+//       //   headers: {
+//       //     "content-type": "application/json",
+//       //     Authorization: `Bearer ${newToken.access_token}`,
+//       //   },
+//       //   body: {
+//       //     title: title,
+//       //     description: description,
+//       //     price: price,
+//       //   },
+//       // });
+//     } else {
+//       throw new Error("Ошибка сервера");
+//     }
+//   }
 
-  const data = await response.json();
-  return data;
-}
+//   const data = await response.json();
+//   return data;
+// }
 
-export async function getProductsMe(access_token) {
-  let response = await fetch(`${baseURL}/ads/me`, {
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
+// export async function getProductsMe(access_token) {
+//   let response = await fetch(`${baseURL}/ads/me`, {
+//     method: "GET",
+//     headers: {
+//       "content-type": "application/json",
+//       Authorization: `Bearer ${access_token}`,
+//     },
+//   });
 
-  if (!response.ok) {
-    if (response.status === 401) {
+//   if (!response.ok) {
+//     if (response.status === 401) {
 
 
-      // const newToken = await updateToken(access_token, localStorage.getItem("refresh_token"));
+//       // const newToken = await updateToken(access_token, localStorage.getItem("refresh_token"));
 
-      // console.log(newToken)
+//       // console.log(newToken)
 
-      // response = await fetch(`${baseURL}/ads/me`, {
-      //   method: "GET",
-      //   headers: {
-      //     "content-type": "application/json",
-      //     Authorization: `Bearer ${newToken.access_token}`,
-      //   },
-      // });
-    } else {
-      throw new Error("Ошибка сервера");
-    }
-  }
+//       // response = await fetch(`${baseURL}/ads/me`, {
+//       //   method: "GET",
+//       //   headers: {
+//       //     "content-type": "application/json",
+//       //     Authorization: `Bearer ${newToken.access_token}`,
+//       //   },
+//       // });
+//     } else {
+//       throw new Error("Ошибка сервера");
+//     }
+//   }
 
-  const data = await response.json();
-  return data;
-}
+//   const data = await response.json();
+//   return data;
+// }
 
 // export async function addFavorite(id, accessToken) {
 //   const response = await fetch(`${baseURL}/catalog/track/${id}/favorite/`, {
