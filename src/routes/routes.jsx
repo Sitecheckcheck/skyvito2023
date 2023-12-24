@@ -11,8 +11,7 @@ import { EditProduct } from "../pages/editProduct/editProduct";
 import { Reviews } from "../pages/reviews/reviews";
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
 
-export const AppRoutes = ({isAllowed}) => {
-
+export const AppRoutes = ({ isAllowed }) => {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />

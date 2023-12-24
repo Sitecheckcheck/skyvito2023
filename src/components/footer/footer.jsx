@@ -12,7 +12,7 @@ export const Footer = () => {
     if (isOpen === "open") {
       return <AddProduct onFormClose={() => setIsOpen("")} />;
     }
-  }
+  };
 
   return (
     <footer className={styles.footer}>
@@ -24,7 +24,7 @@ export const Footer = () => {
         </div>
         <div className={styles.footer__img} onClick={() => setIsOpen("open")}>
           {/* <NavLink to="/add-product" target="_self"> */}
-            <img src="/img/icon_02.png" alt="home" />
+          <img src="/img/icon_02.png" alt="home" />
           {/* </NavLink> */}
         </div>
         <div className={styles.footer__img}>

@@ -17,6 +17,8 @@ export async function addUser(email, password, name, surname, city) {
 
   if (response.status === 400) {
     throw new Error("такой пользователь уже есть");
+  } else if (response.status === 422) {
+    throw new Error("не корректные данные");
   } else if (!response.ok) {
     throw new Error("ошибка сервера");
   }
@@ -100,7 +102,7 @@ export async function updateUser(
 export async function setAvatarUser(body) {
   const access_token = localStorage.getItem("access_token");
   const formData = new FormData();
-  console.log(body)
+  console.log(body);
   formData.append("file", body);
 
   const response = await fetch(`${baseURL}/user/avatar`, {

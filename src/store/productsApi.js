@@ -14,8 +14,7 @@ export const productsApi = createApi({
 
     getOneProduct: builder.query({
       query: (id) => `/ads/${id}`,
-      providesTags: (result) =>
-      result ? [{ type: "ADS", id: "LIST" }] : [],
+      providesTags: (result) => (result ? [{ type: "ADS", id: "LIST" }] : []),
     }),
 
     getMeProducts: builder.query({
@@ -67,7 +66,7 @@ export const productsApi = createApi({
       query: (body) => {
         const access_token = localStorage.getItem("access_token");
         const formData = new FormData();
-        console.log(body.file)
+        console.log(body.file);
         formData.append("file", body.file);
 
         return {
@@ -81,7 +80,7 @@ export const productsApi = createApi({
         };
       },
       invalidatesTags: (result) =>
-      result ? [{ type: "ADS", id: "LIST" }] : [{ type: "ADS", id: "LIST" }],
+        result ? [{ type: "ADS", id: "LIST" }] : [{ type: "ADS", id: "LIST" }],
     }),
 
     deleteProductImage: builder.mutation({
@@ -99,7 +98,7 @@ export const productsApi = createApi({
         };
       },
       invalidatesTags: (result) =>
-      result ? [{ type: "ADS", id: "LIST" }] : [{ type: "ADS", id: "LIST" }],
+        result ? [{ type: "ADS", id: "LIST" }] : [{ type: "ADS", id: "LIST" }],
     }),
 
     getAdsComments: builder.query({
@@ -141,7 +140,7 @@ export const productsApi = createApi({
         return {
           url: `/ads/${body.id}/comments`,
           method: "POST",
-          body: JSON.stringify({ text: body.textComment, }),
+          body: JSON.stringify({ text: body.textComment }),
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${access_token}`,

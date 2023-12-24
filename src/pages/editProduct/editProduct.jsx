@@ -132,7 +132,6 @@ export const EditProduct = ({ onFormClose, product }) => {
                 className={s.hidden}
                 type="file"
                 ref={filePicker}
-                // multiple
                 onChange={handleImgAdd}
                 accept="image/*, .png, .jpg, .gif, .web"
               ></input>

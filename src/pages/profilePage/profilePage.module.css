@@ -1,24 +1,3 @@
-/* .wrapper {
-  width: 100%;
-  min-height: 100%;
-  overflow: hidden;
-  background-color: #f1f1f1;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.container {
-  max-width: 1440px;
-  width: 100%;
-  margin: 0 auto;
-  background-color: #ffffff;
-} */
-
 .main__h2 {
   font-style: normal;
   font-weight: 500;
@@ -40,13 +19,6 @@
 }
 
 @media screen and (max-width: 590px) {
-  /* .container {
-    width: 100%;
-    min-width: 320px;
-    min-height: 100vh;
-    background-color: #ffffff;
-  } */
-
   .main__h2 {
     font-size: 24px;
     line-height: 29px;

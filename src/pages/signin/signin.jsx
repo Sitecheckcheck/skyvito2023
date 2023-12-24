@@ -41,10 +41,10 @@ export const Signin = () => {
           refresh_token: tokens.refresh_token,
         })
       );
-      localStorage.setItem("email", user.email);
+
       localStorage.setItem("access_token", tokens.access_token.toString());
       localStorage.setItem("refresh_token", tokens.refresh_token.toString());
-      navigate('/');
+      navigate("/");
     } catch (error) {
       setErrorText(error.message);
     } finally {
@@ -58,9 +58,7 @@ export const Signin = () => {
         <form
           className={s.modal__form_login}
           id="formLogIn"
-          onSubmit={
-            onSubmit
-          }
+          onSubmit={onSubmit}
         >
           <div className={s.modal__logo} onClick={() => navigate("/")}>
             <img src="../img/logo_modal.png" alt="logo" />

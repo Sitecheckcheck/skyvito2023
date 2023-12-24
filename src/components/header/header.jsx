@@ -11,7 +11,6 @@ export const Header = ({ page = "notMain" }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState("");
   const { isAllowed } = useAuth();
-  // const user = useAuth()
 
   const getModalForm = () => {
     if (isOpen === "open") {
@@ -32,7 +31,7 @@ export const Header = ({ page = "notMain" }) => {
           </NavLink>
         </div>
         {isAllowed === "" ? (
-          <h3 style={{color: "white"}}>Loading...</h3>
+          <h3 style={{ color: "white" }}>Loading...</h3>
         ) : isAllowed ? (
           <>
             <button

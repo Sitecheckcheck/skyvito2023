@@ -2,9 +2,12 @@ import s from "./signup.module.css";
 import cn from "classnames";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addUser } from "../../api";
+import { addUser, getTokens } from "../../api";
+import { setUser } from "../../store/userSlise";
+import { useDispatch } from "react-redux";
 
 export const Signup = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -12,7 +15,7 @@ export const Signup = () => {
   const [surname, setSurname] = useState("");
   const [city, setCity] = useState("");
   const [errorText, setErrorText] = useState("");
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (event) => {
@@ -38,13 +41,33 @@ export const Signup = () => {
     }
 
     try {
-      setDisabled(true)
-      await addUser( email, password, name, surname, city );
-      navigate("/")
+      setDisabled(true);
+      const user = await addUser(email, password, name, surname, city);
+      const tokens = await getTokens(user.email, password);
+
+      dispatch(
+        setUser({
+          email: user.email,
+          name: user.name,
+          surname: user.surname,
+          city: user.city,
+          avatar: user.avatar,
+          id: user.id,
+          phone: user.phone,
+          sells_from: user.sells_from,
+          access_token: tokens.access_token,
+          refresh_token: tokens.refresh_token,
+        })
+      );
+
+      localStorage.setItem("access_token", tokens.access_token.toString());
+      localStorage.setItem("refresh_token", tokens.refresh_token.toString());
+
+      navigate("/");
     } catch (error) {
-      setErrorText(error.message)
+      setErrorText(error.message);
     } finally {
-      setDisabled(false)
+      setDisabled(false);
     }
   };
 

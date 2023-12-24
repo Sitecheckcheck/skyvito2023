@@ -3,8 +3,6 @@ import styles from "./productCard.module.css";
 import { DateBlock } from "../dateBlock/dateBlock";
 
 export const ProductCard = ({ TitleBox, products }) => {
-
-
   return (
     <>
       {products?.map((item) => (
@@ -13,7 +11,9 @@ export const ProductCard = ({ TitleBox, products }) => {
             <div className={styles.card__image}>
               <NavLink
                 to={
-                  TitleBox === "Мои товары" ? `/my-ads/?id=${item.id}` : `/ads/?id=${item.id}`
+                  TitleBox === "Мои товары"
+                    ? `/my-ads/?id=${item.id}`
+                    : `/ads/?id=${item.id}`
                 }
               >
                 <img
@@ -29,7 +29,9 @@ export const ProductCard = ({ TitleBox, products }) => {
             <div className={styles.card__content}>
               <NavLink
                 to={
-                  TitleBox === "Мои товары" ? `/my-ads/?id=${item.id}` : `/ads/?id=${item.id}`
+                  TitleBox === "Мои товары"
+                    ? `/my-ads/?id=${item.id}`
+                    : `/ads/?id=${item.id}`
                 }
               >
                 <h3 className={styles.card__title}>{item.title}</h3>

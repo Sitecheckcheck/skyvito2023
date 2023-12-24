@@ -7,14 +7,12 @@ import { setUser } from "./store/userSlise";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-
-
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getCurrentUser = async () => {
     try {
-      const access_token = localStorage.getItem("access_token")
+      const access_token = localStorage.getItem("access_token");
       const user = await getUser(access_token);
 
       dispatch(
@@ -30,23 +28,22 @@ function App() {
         })
       );
     } catch (error) {
-      
       if (error.message === "токен не рабочий") {
         navigate("/signin");
       }
-    } 
-  }
+    }
+  };
 
   useEffect(() => {
-    getCurrentUser()
-  }, []) // eslint-disable-line
+    getCurrentUser();
+  }, []); // eslint-disable-line
 
   const { isAllowed } = useAuth();
 
   return (
-        <div className="App">
-          <AppRoutes isAllowed={isAllowed}/>
-        </div>
+    <div className="App">
+      <AppRoutes isAllowed={isAllowed} />
+    </div>
   );
 }
 

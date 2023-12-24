@@ -70,17 +70,15 @@ export const ProfileSettings = () => {
           phone: response.phone,
         })
       );
-
     } catch (error) {
       if (error.message === "токен не рабочий") {
         navigate("/signin");
       }
     }
-    
-  }
+  };
 
   const handleImgAdd = (event) => {
-      handleSetAvatar(event.target.files[0]);
+    handleSetAvatar(event.target.files[0]);
   };
 
   const handlePick = () => {
@@ -93,12 +91,11 @@ export const ProfileSettings = () => {
         <h3 className={cn(s.profile__title, s.title)}>Настройки профиля</h3>
         <div className={s.profile__settings}>
           <div className={s.settings__left}>
-            <div className={s.settings__img} 
-            >
+            <div className={s.settings__img}>
               <Link to="/profile" target="_self">
-                <img  src={`http://localhost:8090/${avatar}`} alt="" />
+                <img src={`http://localhost:8090/${avatar}`} alt="" />
               </Link>
-              
+
               <input
                 className={s.hidden}
                 type="file"

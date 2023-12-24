@@ -3,7 +3,7 @@
   height: 100vh;
   margin: 0 auto;
   position: relative;
-  background-color: #F4F5F6;
+  background-color: #f4f5f6;
 }
 
 .modal__block {
@@ -145,17 +145,17 @@
 }
 
 .modal__btn_signup_ent:hover {
-  background-color: #0080C1;
+  background-color: #0080c1;
 }
 
 .modal__btn_signup_ent:active {
-  background-color: #0080C1;
+  background-color: #0080c1;
 }
 
 .modal__btn_signup_ent {
   width: 278px;
   height: 62px;
-  background-color: #009EE4;
+  background-color: #009ee4;
   border-radius: 6px;
   border: none;
   margin-top: 30px;
@@ -163,11 +163,11 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .modal__btn_signup_ent span {
@@ -178,16 +178,16 @@
   font-size: 18px;
   line-height: 24px;
   letter-spacing: -0.05px;
-  color: #FFFFFF;
+  color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .error_box {

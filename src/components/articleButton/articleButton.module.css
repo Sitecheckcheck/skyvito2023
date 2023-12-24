@@ -1,11 +1,3 @@
-/* .article__btn_block { */
-  /* display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap; */
-/* } */
-
 .article__btn {
   background-color: #009ee4;
   border-radius: 6px;
@@ -19,23 +11,23 @@
 }
 
 .article__btn1 {
-    background-color: #009EE4;
-    border-radius: 6px;
-    border: 1px solid #009EE4;
-    width: 214px;
-    height: 62px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 22px;
-    color: #FFFFFF;
-    font-family: 'Roboto', sans-serif;
-  }
+  background-color: #009ee4;
+  border-radius: 6px;
+  border: 1px solid #009ee4;
+  width: 214px;
+  height: 62px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+}
 
-  .article__btn1 span {
-    display: block;
-    font-size: 14px;
-    font-weight: 400;
-  }
+.article__btn1 span {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+}
 
 .btn_redact {
   width: 189px;
