@@ -25,18 +25,23 @@ export const Signin = () => {
     try {
       setDisabled(true);
       const tokens = await getTokens(email, password);
-      const user = await getUser(tokens.access_token, tokens.refresh_token);
+      const user = await getUser(tokens.access_token);
 
       dispatch(
         setUser({
           email: user.email,
           name: user.name,
+          surname: user.surname,
+          city: user.city,
+          avatar: user.avatar,
+          id: user.id,
+          phone: user.phone,
+          sells_from: user.sells_from,
           access_token: tokens.access_token,
           refresh_token: tokens.refresh_token,
         })
       );
       localStorage.setItem("email", user.email);
-      localStorage.setItem("name", user.name);
       localStorage.setItem("access_token", tokens.access_token.toString());
       localStorage.setItem("refresh_token", tokens.refresh_token.toString());
       navigate('/');

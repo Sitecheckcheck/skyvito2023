@@ -10,8 +10,8 @@ import { useAuth } from "../../hooks/use-auth";
 export const Header = ({ page = "notMain" }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState("");
-  // const { isAllowed } = useContext(Allowed);
   const { isAllowed } = useAuth();
+  // const user = useAuth()
 
   const getModalForm = () => {
     if (isOpen === "open") {

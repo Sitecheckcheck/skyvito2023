@@ -6,15 +6,15 @@ export const userApi = createApi({
     baseUrl: "http://localhost:8090/",
   }),
   endpoints: (builder) => ({
-    // getUser: builder.mutation({
-    //   query: (body) => ({
-    //     url: "/user",
-    //     method: `GET`,
-    //     headers: {
-    //       Authorization: `Bearer ${body}`,
-    //     },
-    //   }),
-    // }),
+    getUser: builder.query({
+      query: (body) => ({
+        url: "/user",
+        method: `GET`,
+        headers: {
+          Authorization: `Bearer ${body}`,
+        },
+      }),
+    }),
 
     getAllUsers: builder.query({
       query: (body) => ({
@@ -62,7 +62,7 @@ export const userApi = createApi({
 });
 
 export const {
-  // useGetUserMutation,
+  useGetUserQuery,
   useGetAllUsersQuery,
   useChangeUserMutation,
   useUpdatePasswordQuery,

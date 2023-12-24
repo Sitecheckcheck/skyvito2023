@@ -9,17 +9,21 @@ import { useAuth } from "../../hooks/use-auth";
 import { useGetMeProductsQuery } from "../../store/productsApi/productsApi";
 import { useNavigate } from "react-router-dom";
 
-
 export const ProfilePage = () => {
   const { name } = useAuth();
-  const userName = name ? name : "Пользователь"
-  const {data, isLoading ,error} = useGetMeProductsQuery(localStorage.getItem("access_token"))
-  const navigate = useNavigate()
+  const { data, isLoading, error } = useGetMeProductsQuery(
+    localStorage.getItem("access_token")
+  );
+  const navigate = useNavigate();
+  const userName = name ? name : "Пользователь";
 
-  if (isLoading) return <h1 style={{textAlign: "center", marginTop: "50px"}}>Loading...</h1>
+  if (isLoading)
+    return (
+      <h1 style={{ textAlign: "center", marginTop: "50px" }}>Loading...</h1>
+    );
 
   if (!isLoading && error?.status === 401) {
-    navigate('/signin')
+    navigate("/signin");
   }
 
   return (

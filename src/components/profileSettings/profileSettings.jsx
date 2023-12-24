@@ -1,8 +1,58 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import s from "./profileSettings.module.css";
 import cn from "classnames";
+import { useAuth } from "../../hooks/use-auth";
+import { useEffect, useState } from "react";
+import { updateUser } from "../../api";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/userSlise";
 
 export const ProfileSettings = () => {
+  const dispatch = useDispatch();
+  const { name, surname, phone, city } = useAuth();
+  const [nameText, setNameText] = useState(name);
+  const [cityText, setCityText] = useState(city);
+  const [surnameText, setSurnameText] = useState(surname);
+  const [phoneText, setPhoneText] = useState(phone);
+  const [activButton, setActivButton] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!nameText && !cityText && !surnameText && !phoneText) {
+      setActivButton(false);
+    }
+  }, [nameText, cityText, surnameText, phoneText]);
+
+  const handleUpdateUser = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await updateUser(
+        nameText,
+        surnameText,
+        cityText,
+        phoneText
+      );
+
+      dispatch(
+        setUser({
+          email: response.email,
+          id: response.id,
+          sells_from: response.sells_from,
+          avatar: response.avatar,
+          name: response.name,
+          surname: response.surname,
+          city: response.city,
+          phone: response.phone,
+        })
+      );
+    } catch (error) {
+      if (error.message === "токен не рабочий") {
+        navigate("/signin");
+      }
+    }
+  };
+
   return (
     <div className={s.main__profile}>
       <div className={s.profile__content}>
@@ -19,7 +69,7 @@ export const ProfileSettings = () => {
             </NavLink>
           </div>
           <div className={s.settings__right}>
-            <form className={s.settings__form} action="#">
+            <form className={s.settings__form} onSubmit={handleUpdateUser}>
               <div className={s.settings__div}>
                 <label htmlFor="fname">Имя</label>
                 <input
@@ -27,8 +77,12 @@ export const ProfileSettings = () => {
                   id="settings-fname"
                   name="fname"
                   type="text"
-                  defaultValue="Ан"
-                  placeholder=""
+                  value={nameText}
+                  placeholder="введите имя"
+                  onChange={(event) => {
+                    setNameText(event.target.value);
+                    setActivButton(true);
+                  }}
                 />
               </div>
 
@@ -39,8 +93,12 @@ export const ProfileSettings = () => {
                   id="settings-lname"
                   name="lname"
                   type="text"
-                  defaultValue="Городецкий"
-                  placeholder=""
+                  defaultValue={surnameText}
+                  placeholder="введите фамилию"
+                  onChange={(event) => {
+                    setSurnameText(event.target.value);
+                    setActivButton(true);
+                  }}
                 />
               </div>
 
@@ -51,8 +109,12 @@ export const ProfileSettings = () => {
                   id="settings-city"
                   name="city"
                   type="text"
-                  defaultValue="Санкт-Петербург"
-                  placeholder=""
+                  defaultValue={cityText}
+                  placeholder="введите город"
+                  onChange={(event) => {
+                    setCityText(event.target.value);
+                    setActivButton(true);
+                  }}
                 />
               </div>
 
@@ -63,14 +125,24 @@ export const ProfileSettings = () => {
                   id="settings-phone"
                   name="phone"
                   type="tel"
-                  defaultValue="89161234567"
-                  placeholder="+79161234567"
+                  defaultValue={phoneText}
+                  placeholder="введите телефон"
+                  onChange={(event) => {
+                    setPhoneText(event.target.value);
+                    setActivButton(true);
+                  }}
                 />
               </div>
 
               <button
-                className={cn(s.settings__btn, s.btn_hov02)}
+                className={
+                  !activButton
+                    ? cn(s.settings__btn)
+                    : cn(s.settings__btn_activ, s.btn_hov02)
+                }
                 id="settings-btn"
+                type="submit"
+                disabled={!activButton}
               >
                 Сохранить
               </button>

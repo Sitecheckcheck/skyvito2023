@@ -1,13 +1,30 @@
-import {useSelector} from 'react-redux'
+import { useSelector } from "react-redux";
 
 export function useAuth() {
-    const {email, name, access_token, refresh_token} = useSelector(state => state.user);
+  const {
+    email,
+    name,
+    surname,
+    city,
+    avatar,
+    phone,
+    sells_from,
+    id,
+    access_token,
+    refresh_token,
+  } = useSelector((state) => state.user);
 
-    return {
-        isAllowed : !!email,
-        email,
-        name,
-        access_token,
-        refresh_token,
-    }
+  return {
+    isAllowed: !!email,
+    email,
+    name,
+    surname,
+    city,
+    avatar,
+    id,
+    phone,
+    sells_from,
+    access_token,
+    refresh_token,
+  };
 }
