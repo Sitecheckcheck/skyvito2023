@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAddProductTextMutation } from "../../store/productsApi/productsApi";
+import { useAddProductTextMutation } from "../../store/productsApi";
 import s from "./addProduct.module.css";
 import cn from "classnames";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,12 @@ export const AddProduct = ({ onFormClose }) => {
   const [price, setPrice] = useState(null);
   const [errorText, setErrorText] = useState("");
   const navigate = useNavigate();
-  const [addProductText, {isLoading}] = useAddProductTextMutation()
+  const [addProductText, { isLoading }] = useAddProductTextMutation();
 
-  if (isLoading) return <h1 style={{textAlign: "center", marginTop: "50px"}}>Loading...</h1>
+  if (isLoading)
+    return (
+      <h1 style={{ textAlign: "center", marginTop: "50px" }}>Loading...</h1>
+    );
 
   const handleAddProduct = async (event) => {
     event.preventDefault();
@@ -20,19 +23,23 @@ export const AddProduct = ({ onFormClose }) => {
     if (!title || !description || !price) {
       setErrorText("Не все поля заполнены");
     } else {
-      const access = localStorage.getItem("access_token")
-      const response = await addProductText({access, title, description, price});
+      const access = localStorage.getItem("access_token");
+      const response = await addProductText({
+        access,
+        title,
+        description,
+        price,
+      });
 
       if (response.error?.status === 401) {
-        navigate('/signin')
+        navigate("/signin");
       }
 
       if (response.error?.status === 422) {
-        setErrorText('введены не корректные данные')
-      } 
-      navigate(`/my-ads/?id=${response.data?.id}`)
+        setErrorText("введены не корректные данные");
+      }
+      navigate(`/my-ads/?id=${response.data?.id}`);
     }
-    
   };
 
   return (

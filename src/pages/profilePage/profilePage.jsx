@@ -6,7 +6,7 @@ import s from "./profilePage.module.css";
 import { MainMenu } from "../../components/mainMenu/mainMenu";
 import { ProfileSettings } from "../../components/profileSettings/profileSettings";
 import { useAuth } from "../../hooks/use-auth";
-import { useGetMeProductsQuery } from "../../store/productsApi/productsApi";
+import { useGetMeProductsQuery } from "../../store/productsApi";
 import { useNavigate } from "react-router-dom";
 
 export const ProfilePage = () => {

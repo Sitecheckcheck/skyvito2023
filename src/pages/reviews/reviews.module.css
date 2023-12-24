@@ -252,6 +252,7 @@
   height: 40px;
   border-radius: 50%;
   background-color: #f0f0f0;
+  overflow: hidden;
 }
 
 .review__img img {
@@ -260,6 +261,9 @@
   height: auto;
   -o-object-fit: cover;
   object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+  flex-shrink: 0;
 }
 
 .review__right {

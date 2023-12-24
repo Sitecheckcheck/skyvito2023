@@ -67,6 +67,7 @@ export const productsApi = createApi({
       query: (body) => {
         const access_token = localStorage.getItem("access_token");
         const formData = new FormData();
+        console.log(body.file)
         formData.append("file", body.file);
 
         return {

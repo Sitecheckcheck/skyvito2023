@@ -74,6 +74,7 @@
   height: 480px;
   /* background-color: #f0f0f0; */
   margin: 0 5px;
+  overflow: hidden;
 }
 
 .article__img img {
@@ -190,6 +191,7 @@
   height: 40px;
   background-color: #f0f0f0;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .author__img img {
@@ -198,6 +200,9 @@
   display: block;
   -o-object-fit: cover;
   object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+  flex-shrink: 0;
 }
 
 .author__cont {

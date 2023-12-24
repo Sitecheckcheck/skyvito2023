@@ -6,7 +6,7 @@ import {
   useAddProductImageMutation,
   useDeleteProductImageMutation,
   useUpdateProductMutation,
-} from "../../store/productsApi/productsApi";
+} from "../../store/productsApi";
 
 export const EditProduct = ({ onFormClose, product }) => {
   const [errorText, setErrorText] = useState("");

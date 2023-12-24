@@ -1,26 +1,23 @@
 import { useState } from "react";
 import s from "./reviews.module.css";
 import cn from "classnames";
-import { useCreateCommentMutation } from "../../store/productsApi/productsApi";
+import { useCreateCommentMutation } from "../../store/productsApi";
 import { useNavigate } from "react-router-dom";
 import { DateBlock } from "../../components/dateBlock/dateBlock";
 
 export const Reviews = ({ onFormClose, reviews, id }) => {
-
-  const [textComment, setTextComment] = useState('')
-  const [errorText, setErrorText] = useState('')
-  const [createComment] = useCreateCommentMutation()
+  const [textComment, setTextComment] = useState("");
+  const [errorText, setErrorText] = useState("");
+  const [createComment] = useCreateCommentMutation();
   const navigate = useNavigate();
 
   const addComment = async () => {
-    
-    const response = await createComment({id: id, textComment: textComment})
+    const response = await createComment({ id: id, textComment: textComment });
     if (response.error?.status === 401) {
-      navigate('/signin')
+      navigate("/signin");
     }
     onFormClose();
-  }
-
+  };
 
   return (
     <div className={s.container_bg}>
@@ -33,9 +30,7 @@ export const Reviews = ({ onFormClose, reviews, id }) => {
             <div className={s.modal__btn_close_line}></div>
           </div>
           <div className={s.modal__scroll}>
-            <div
-              className={cn(s.modal__form_newArt, s.form_newArt)}
-            >
+            <div className={cn(s.modal__form_newArt, s.form_newArt)}>
               <div className={s.form_newArt__block}>
                 <label htmlFor="text">Добавить отзыв</label>
                 <textarea
@@ -60,8 +55,8 @@ export const Reviews = ({ onFormClose, reviews, id }) => {
                 Опубликовать
               </button>
               <div className={s.error_box}>
-            <p className={s.error_text}>{errorText}</p>
-          </div>
+                <p className={s.error_text}>{errorText}</p>
+              </div>
             </div>
 
             <div className={cn(s.modal__reviews)}>
@@ -70,12 +65,18 @@ export const Reviews = ({ onFormClose, reviews, id }) => {
                   <div className={s.review__item}>
                     <div className={s.review__left}>
                       <div className={s.review__img}>
-                        <img src="" alt="" />
+                        <img
+                          src={`http://localhost:8090/${item.author.avatar}`}
+                          alt=""
+                        />
                       </div>
                     </div>
                     <div className={s.review__right}>
                       <p className={cn(s.review__name, s.font_t)}>
-                        {item.author.name ? item.author.name : 'без имени'} <span><DateBlock time={item.created_on} type="card" /></span>
+                        {item.author.name ? item.author.name : "без имени"}{" "}
+                        <span>
+                          <DateBlock time={item.created_on} type="card" />
+                        </span>
                       </p>
                       <h5 className={cn(s.review__title, s.font_t)}>
                         Комментарий

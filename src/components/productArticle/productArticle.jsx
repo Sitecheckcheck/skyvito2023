@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { Reviews } from "../../pages/reviews/reviews";
 import { Modal } from "../modal/modal";
 import { DateBlock } from "../dateBlock/dateBlock";
-import { useGetAdsCommentsQuery } from "../../store/productsApi/productsApi";
+import { useGetAdsCommentsQuery } from "../../store/productsApi";
 
 export const ProductArticle = ({ page = "product", product }) => {
   const [isOpen, setIsOpen] = useState("");
@@ -15,7 +15,13 @@ export const ProductArticle = ({ page = "product", product }) => {
 
   const getModalForm = () => {
     if (isOpen === "open") {
-      return <Reviews onFormClose={() => setIsOpen("")} reviews={comments.data || []} id={product.id} />;
+      return (
+        <Reviews
+          onFormClose={() => setIsOpen("")}
+          reviews={comments.data || []}
+          id={product.id}
+        />
+      );
     }
   };
 
@@ -79,7 +85,10 @@ export const ProductArticle = ({ page = "product", product }) => {
 
             <div className={cn(s.article__author, s.author)}>
               <div className={s.author__img}>
-                <img src="" alt="" />
+                <img
+                  src={`http://localhost:8090/${product.user.avatar}`}
+                  alt=""
+                />
               </div>
               <div className={s.author__cont}>
                 <p className={s.author__name}>{product?.user.name}</p>

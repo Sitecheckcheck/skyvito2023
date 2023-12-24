@@ -4,7 +4,7 @@ import cn from "classnames";
 import { createPortal } from "react-dom";
 import { Modal } from "../modal/modal";
 import { EditProduct } from "../../pages/editProduct/editProduct";
-import { useDeleteProductMutation } from "../../store/productsApi/productsApi";
+import { useDeleteProductMutation } from "../../store/productsApi";
 import { useNavigate } from "react-router-dom";
 
 export const ArticleButton = ({ page, phone, product }) => {
@@ -15,7 +15,9 @@ export const ArticleButton = ({ page, phone, product }) => {
 
   const getModalForm = () => {
     if (isOpen === "open") {
-      return <EditProduct onFormClose={() => setIsOpen("")} product={product} />;
+      return (
+        <EditProduct onFormClose={() => setIsOpen("")} product={product} />
+      );
     }
   };
 
@@ -24,7 +26,7 @@ export const ArticleButton = ({ page, phone, product }) => {
     if (response.error?.status === 401) {
       navigate("/signin");
     }
-    navigate("/profile")
+    navigate("/profile");
   };
 
   return (

@@ -6,7 +6,7 @@ import { MainMenu } from "../../components/mainMenu/mainMenu";
 import { ProductArticle } from "../../components/productArticle/productArticle";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
-import { useGetOneProductQuery } from "../../store/productsApi/productsApi";
+import { useGetOneProductQuery } from "../../store/productsApi";
 
 export const AdsPage = () => {
   const location = useLocation();

@@ -72,7 +72,7 @@ export async function updateUser(
   city = "",
   phone = ""
 ) {
-  const access_token = localStorage.getItem("access_token")
+  const access_token = localStorage.getItem("access_token");
   const response = await fetch(`${baseURL}/user`, {
     method: "PATCH",
     body: JSON.stringify({
@@ -84,6 +84,31 @@ export async function updateUser(
     headers: {
       "content-type": "application/json",
       Authorization: `Bearer ${access_token}`,
+    },
+  });
+
+  if (response.status === 401) {
+    throw new Error("токен не рабочий");
+  } else if (!response.ok) {
+    throw new Error("ошибка сервера");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export async function setAvatarUser(body) {
+  const access_token = localStorage.getItem("access_token");
+  const formData = new FormData();
+  console.log(body)
+  formData.append("file", body);
+
+  const response = await fetch(`${baseURL}/user/avatar`, {
+    method: "POST",
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      // "Content-Type": undefined,
     },
   });
 

@@ -1,21 +1,22 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import s from "./profileSettings.module.css";
 import cn from "classnames";
 import { useAuth } from "../../hooks/use-auth";
-import { useEffect, useState } from "react";
-import { updateUser } from "../../api";
+import { useEffect, useRef, useState } from "react";
+import { setAvatarUser, updateUser } from "../../api";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlise";
 
 export const ProfileSettings = () => {
   const dispatch = useDispatch();
-  const { name, surname, phone, city } = useAuth();
+  const { name, surname, phone, city, avatar } = useAuth();
   const [nameText, setNameText] = useState(name);
   const [cityText, setCityText] = useState(city);
   const [surnameText, setSurnameText] = useState(surname);
   const [phoneText, setPhoneText] = useState(phone);
   const [activButton, setActivButton] = useState(false);
   const navigate = useNavigate();
+  const filePicker = useRef(null);
 
   useEffect(() => {
     if (!nameText && !cityText && !surnameText && !phoneText) {
@@ -53,20 +54,63 @@ export const ProfileSettings = () => {
     }
   };
 
+  const handleSetAvatar = async (file) => {
+    try {
+      const response = await setAvatarUser(file);
+
+      dispatch(
+        setUser({
+          email: response.email,
+          id: response.id,
+          sells_from: response.sells_from,
+          avatar: response.avatar,
+          name: response.name,
+          surname: response.surname,
+          city: response.city,
+          phone: response.phone,
+        })
+      );
+
+    } catch (error) {
+      if (error.message === "токен не рабочий") {
+        navigate("/signin");
+      }
+    }
+    
+  }
+
+  const handleImgAdd = (event) => {
+      handleSetAvatar(event.target.files[0]);
+  };
+
+  const handlePick = () => {
+    filePicker.current.click();
+  };
+
   return (
     <div className={s.main__profile}>
       <div className={s.profile__content}>
         <h3 className={cn(s.profile__title, s.title)}>Настройки профиля</h3>
         <div className={s.profile__settings}>
           <div className={s.settings__left}>
-            <div className={s.settings__img}>
-              <NavLink to="/" target="_self">
-                <img src="#" alt="" />
-              </NavLink>
+            <div className={s.settings__img} 
+            >
+              <Link to="/profile" target="_self">
+                <img  src={`http://localhost:8090/${avatar}`} alt="" />
+              </Link>
+              
+              <input
+                className={s.hidden}
+                type="file"
+                ref={filePicker}
+                // multiple
+                onChange={handleImgAdd}
+                accept="image/*, .png, .jpg, .gif, .web, .jpeg"
+              ></input>
             </div>
-            <NavLink className={s.settings__change_photo} to="/">
+            <div className={s.settings__change_photo} onClick={handlePick}>
               Заменить
-            </NavLink>
+            </div>
           </div>
           <div className={s.settings__right}>
             <form className={s.settings__form} onSubmit={handleUpdateUser}>
