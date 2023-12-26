@@ -25,7 +25,9 @@ export const Signin = () => {
     try {
       setDisabled(true);
       const tokens = await getTokens(email, password);
-      const user = await getUser(tokens.access_token);
+      localStorage.setItem('access_token', tokens.access_token)
+      localStorage.setItem('refresh_token', tokens.refresh_token)
+      const user = await getUser();
 
       dispatch(
         setUser({
@@ -44,6 +46,7 @@ export const Signin = () => {
 
       localStorage.setItem("access_token", tokens.access_token.toString());
       localStorage.setItem("refresh_token", tokens.refresh_token.toString());
+      localStorage.setItem("email", user.email);
       navigate("/");
     } catch (error) {
       setErrorText(error.message);

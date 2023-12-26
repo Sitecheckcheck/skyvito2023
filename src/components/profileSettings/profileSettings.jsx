@@ -3,9 +3,9 @@ import s from "./profileSettings.module.css";
 import cn from "classnames";
 import { useAuth } from "../../hooks/use-auth";
 import { useEffect, useRef, useState } from "react";
-import { setAvatarUser, updateUser } from "../../api";
+import { refreshTokens, setAvatarUser, updateUser } from "../../api";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../store/userSlise";
+import { removeUser, setUser } from "../../store/userSlise";
 
 export const ProfileSettings = () => {
   const dispatch = useDispatch();
@@ -72,7 +72,27 @@ export const ProfileSettings = () => {
       );
     } catch (error) {
       if (error.message === "токен не рабочий") {
-        navigate("/signin");
+        try {
+          const tokens = await refreshTokens()
+          localStorage.setItem('access_token', tokens.access_token)
+          localStorage.setItem('refresh_token', tokens.refresh_token)
+          const response = await setAvatarUser(file);
+          dispatch(
+            setUser({
+              email: response.email,
+              id: response.id,
+              sells_from: response.sells_from,
+              avatar: response.avatar,
+              name: response.name,
+              surname: response.surname,
+              city: response.city,
+              phone: response.phone,
+            })
+          );
+        } catch (error) {
+          navigate("/signin");
+        }
+        
       }
     }
   };
@@ -174,19 +194,32 @@ export const ProfileSettings = () => {
                   }}
                 />
               </div>
-
-              <button
-                className={
-                  !activButton
-                    ? cn(s.settings__btn)
-                    : cn(s.settings__btn_activ, s.btn_hov02)
-                }
-                id="settings-btn"
-                type="submit"
-                disabled={!activButton}
-              >
-                Сохранить
-              </button>
+              <div className={s.buttons_box}>
+                <button
+                  className={
+                    !activButton
+                      ? cn(s.settings__btn)
+                      : cn(s.settings__btn_activ, s.btn_hov02)
+                  }
+                  id="settings-btn"
+                  type="submit"
+                  disabled={!activButton}
+                >
+                  Сохранить
+                </button>
+                <button
+                  className={cn(s.settings__btn_activ, s.btn_hov02)}
+                  id="settings-btn"
+                  onClick={() => {
+                    dispatch(removeUser());
+                    localStorage.removeItem('access_token')
+                    localStorage.removeItem('refresh_token')
+                    navigate('/')
+                  }}
+                >
+                  Выйти
+                </button>
+              </div>
             </form>
           </div>
         </div>

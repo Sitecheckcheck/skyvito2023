@@ -49,7 +49,32 @@ export async function getTokens(email, password) {
   return data;
 }
 
-export async function getUser(access_token) {
+export async function refreshTokens() {
+  const access_token = localStorage.getItem('access_token')
+  const refresh_token = localStorage.getItem('refresh_token')
+  const response = await fetch(`${baseURL}/auth/login/`, {
+    method: "PUT",
+    body: JSON.stringify({
+      access_token,
+      refresh_token,
+    }),
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+
+  if (response.status === 401) {
+    throw new Error("email/пароль не верный");
+  } else if (!response.ok) {
+    throw new Error("ошибка сервера");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export async function getUser() {
+  const access_token = localStorage.getItem('access_token')
   const response = await fetch(`${baseURL}/user`, {
     method: "GET",
     headers: {

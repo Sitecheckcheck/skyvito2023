@@ -10,15 +10,20 @@ import { AddProduct } from "../pages/addProduct/addProduct";
 import { EditProduct } from "../pages/editProduct/editProduct";
 import { Reviews } from "../pages/reviews/reviews";
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
+import { useAuth } from "../hooks/use-auth";
 
-export const AppRoutes = ({ isAllowed }) => {
+
+
+export const AppRoutes = () => {
+  const user = useAuth();
+
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route
         path="/profile"
         element={
-          <ProtectedRoute redirectPath="/" isAllowed={isAllowed}>
+          <ProtectedRoute redirectPath="/" isAllowed={user.isAllowed}>
             <ProfilePage />
           </ProtectedRoute>
         }
