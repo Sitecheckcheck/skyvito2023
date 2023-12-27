@@ -50,8 +50,8 @@ export async function getTokens(email, password) {
 }
 
 export async function refreshTokens() {
-  const access_token = localStorage.getItem('access_token')
-  const refresh_token = localStorage.getItem('refresh_token')
+  const access_token = localStorage.getItem("access_token");
+  const refresh_token = localStorage.getItem("refresh_token");
   const response = await fetch(`${baseURL}/auth/login/`, {
     method: "PUT",
     body: JSON.stringify({
@@ -63,18 +63,19 @@ export async function refreshTokens() {
     },
   });
 
-  if (response.status === 401) {
-    throw new Error("email/пароль не верный");
-  } else if (!response.ok) {
+  if (!response.ok) {
     throw new Error("ошибка сервера");
   }
 
   const data = await response.json();
+  localStorage.setItem('tokenTime', new Date().getTime())
+  localStorage.setItem("access_token", data.access_token);
+  localStorage.setItem("refresh_token", data.refresh_token);
   return data;
 }
 
 export async function getUser() {
-  const access_token = localStorage.getItem('access_token')
+  const access_token = localStorage.getItem("access_token");
   const response = await fetch(`${baseURL}/user`, {
     method: "GET",
     headers: {

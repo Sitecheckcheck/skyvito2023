@@ -25,6 +25,7 @@ export const Signin = () => {
     try {
       setDisabled(true);
       const tokens = await getTokens(email, password);
+      localStorage.setItem('tokenTime', new Date().getTime())
       localStorage.setItem('access_token', tokens.access_token)
       localStorage.setItem('refresh_token', tokens.refresh_token)
       const user = await getUser();

@@ -1,11 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
   tagTypes: ["ADS", "COMMENTS"],
-  baseQuery: fetchBaseQuery({
+  baseQuery: retry(fetchBaseQuery({
     baseUrl: "http://localhost:8090/",
-  }),
+  }), {maxRetries: 0,}),
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: () => "/ads",
@@ -18,14 +18,18 @@ export const productsApi = createApi({
     }),
 
     getMeProducts: builder.query({
-      query: (body) => ({
-        url: "/ads/me",
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${body}`,
-        },
-      }),
+      query:  () =>  {
+
+        return {
+          url: "/ads/me",
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        };
+      },
+      extraOptions: { maxRetries: 0 },
       providesTags: [{ type: "ADS", id: "LIST" }],
     }),
 

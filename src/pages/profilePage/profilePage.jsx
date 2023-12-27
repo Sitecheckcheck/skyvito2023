@@ -8,13 +8,12 @@ import { ProfileSettings } from "../../components/profileSettings/profileSetting
 import { useAuth } from "../../hooks/use-auth";
 import { useGetMeProductsQuery } from "../../store/productsApi";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { refreshTokens } from "../../api";
 
 export const ProfilePage = () => {
-  const [token, setToken] = useState(localStorage.getItem("access_token"));
   const { name } = useAuth();
-  const { data, isLoading, error } = useGetMeProductsQuery(token);
+
+  const { data, isLoading, error } = useGetMeProductsQuery();
+
   const navigate = useNavigate();
   const userName = name ? name : "Пользователь";
 
@@ -24,15 +23,7 @@ export const ProfilePage = () => {
     );
 
   if (!isLoading && error?.status === 401) {
-    refreshTokens()
-      .then((tokens) => {
-        localStorage.setItem("access_token", tokens.access_token);
-        localStorage.setItem("refresh_token", tokens.refresh_token);
-        setToken(tokens.access_token);
-      })
-      .catch(() => {
-        navigate("/signin");
-      });
+    navigate("/signin");
   }
 
   return (
