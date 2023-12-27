@@ -29,7 +29,7 @@ export const SellerProfile = () => {
                   </div>
                 </div>
 
-                <ArticleButton page="product"  />
+                <ArticleButton page="product" />
               </div>
             </div>
           </div>

@@ -7,7 +7,6 @@ import { MainMenu } from "../../components/mainMenu/mainMenu";
 import { SellerProfile } from "../../components/sellerProfile/sellerProfile";
 
 export const SellerProfilePage = () => {
-
   return (
     <>
       <Header isAllowed={true} />

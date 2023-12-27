@@ -5,9 +5,26 @@ import { Footer } from "../../components/footer/footer";
 import s from "./profilePage.module.css";
 import { MainMenu } from "../../components/mainMenu/mainMenu";
 import { ProfileSettings } from "../../components/profileSettings/profileSettings";
+import { useAuth } from "../../hooks/use-auth";
+import { useGetMeProductsQuery } from "../../store/productsApi";
+import { useNavigate } from "react-router-dom";
 
 export const ProfilePage = () => {
-  const userName = "Антон";
+  const { name } = useAuth();
+
+  const { data, isLoading, error } = useGetMeProductsQuery();
+
+  const navigate = useNavigate();
+  const userName = name ? name : "Пользователь";
+
+  if (isLoading)
+    return (
+      <h1 style={{ textAlign: "center", marginTop: "50px" }}>Loading...</h1>
+    );
+
+  if (!isLoading && error?.status === 401) {
+    navigate("/signin");
+  }
 
   return (
     <>
@@ -19,7 +36,7 @@ export const ProfilePage = () => {
           <ProfileSettings />
         </div>
         <div className={s.main__content}>
-          <ProductsBox TitleBox="Мои товары" />
+          <ProductsBox TitleBox="Мои товары" products={data} />
         </div>
       </div>
 

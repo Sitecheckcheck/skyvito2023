@@ -32,6 +32,14 @@
   color: #000000;
 }
 
+.main__artic {
+  max-width: 1178px;
+  padding: 0 0 70px;
+  margin: 0 auto;
+  padding: 0 5px 70px;
+  text-align: center;
+}
+
 @media screen and (max-width: 768px) {
   .main__container {
     padding: 0 20px 0;
@@ -51,5 +59,12 @@
     width: 100%;
     margin: 0 auto;
     padding: 0 0 84px;
+  }
+
+  .main__artic {
+    max-width: 1178px;
+    width: 100%;
+    padding: 55px 0 0px;
+    margin: 0 auto;
   }
 }

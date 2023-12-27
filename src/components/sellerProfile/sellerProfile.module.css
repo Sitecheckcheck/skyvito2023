@@ -4,101 +4,94 @@
 }
 
 .profile__content {
-    max-width: 834px;
-  }
+  max-width: 834px;
+}
 
-  .main__profile_sell {
-    width: 100%;
-    padding: 0 0 70px;
-  }
+.main__profile_sell {
+  width: 100%;
+  padding: 0 0 70px;
+}
 
+.profile_sell__content {
+  width: 100%;
+}
+
+.profile_sell__seller {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: top;
+  -ms-flex-align: top;
+  align-items: top;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.seller__left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.seller__img {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+}
+
+.seller__img img {
+  width: 100%;
+  height: auto;
+  display: block;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.seller__right {
+  width: auto;
+}
+
+.seller__title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 40px;
+  color: #000000;
+  margin-bottom: 0px;
+}
+
+.seller__inf,
+.seller__city {
+  font-size: 16px;
+  line-height: 21px;
+  color: #5f5f5f;
+  margin-bottom: 10px;
+}
+
+.seller__img_mob_block {
+  display: none;
+}
+
+@media screen and (max-width: 890px) {
   .profile_sell__content {
+    max-width: 834px;
     width: 100%;
   }
 
   .profile_sell__seller {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: top;
-        -ms-flex-align: top;
-            align-items: top;
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
   }
-
-  .seller__left {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    margin-right: 50px;
-  }
-
-  .seller__img {
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    background-color: #F0F0F0;
-  }
-
-  .seller__img img {
-    width: 100%;
-    height: auto;
-    display: block;
-    -o-object-fit: cover;
-       object-fit: cover;
-  }
-
-  .seller__right {
-    width: auto;
-  }
-
-  .seller__title {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 40px;
-    color: #000000;
-    margin-bottom: 0px;
-  }
-
-  .seller__inf, .seller__city {
-    font-size: 16px;
-    line-height: 21px;
-    color: #5F5F5F;
-    margin-bottom: 10px;
-  }
-
-  .seller__img_mob_block {
-    display: none;
-  }
-  
-  
-  
-
-
-
-
-  @media screen and (max-width: 890px) {
-    .profile_sell__content {
-      max-width: 834px;
-      width: 100%;
-    }
-
-    .profile_sell__seller {
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-      }
 }
-
-
 
 @media screen and (max-width: 590px) {
   .main__profile {
@@ -123,10 +116,10 @@
 
   .profile_sell__seller {
     -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+    flex-wrap: wrap;
     -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
   }
 
   .seller__left {
@@ -148,10 +141,11 @@
     margin-bottom: 6px;
   }
 
-  .seller__inf, .seller__city {
+  .seller__inf,
+  .seller__city {
     font-size: 16px;
     line-height: 21px;
-    color: #5F5F5F;
+    color: #5f5f5f;
     margin-bottom: 6px;
   }
 
@@ -161,8 +155,8 @@
     display: flex;
     width: 100%;
     -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     padding: 20px 0;
   }
 
@@ -171,7 +165,7 @@
     width: 132px;
     height: 132px;
     border-radius: 50%;
-    background-color: #F0F0F0;
+    background-color: #f0f0f0;
   }
 
   .seller__img-mob img {
@@ -179,7 +173,6 @@
     height: auto;
     display: block;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
   }
-
 }

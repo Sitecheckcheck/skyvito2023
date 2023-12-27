@@ -45,9 +45,9 @@
   -webkit-box-align: top;
   -ms-flex-align: top;
   align-items: top;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  /* -webkit-box-pack: center;
+  -ms-flex-pack: center; */
+  /* justify-content: center; */
 }
 
 .article__left {
@@ -72,16 +72,17 @@
 .article__img {
   width: 480px;
   height: 480px;
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
   margin: 0 5px;
+  overflow: hidden;
 }
 
 .article__img img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  -o-object-fit: cover;
-  object-fit: cover;
+  /* -o-object-fit: cover; */
+  object-fit: contain;
 }
 
 .article__img_bar_mob {
@@ -159,6 +160,7 @@
   font-size: 16px;
   line-height: 21px;
   color: #009ee4;
+  cursor: pointer;
 }
 
 .article__price {
@@ -180,7 +182,8 @@
   flex-direction: row;
   -webkit-box-align: start;
   -ms-flex-align: start;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 
 .author__img {
@@ -188,6 +191,7 @@
   height: 40px;
   background-color: #f0f0f0;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .author__img img {
@@ -196,6 +200,9 @@
   display: block;
   -o-object-fit: cover;
   object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+  flex-shrink: 0;
 }
 
 .author__cont {
@@ -219,8 +226,6 @@
   .article__left {
     margin-right: 20px;
   }
-
-
 }
 
 @media screen and (max-width: 768px) {
@@ -229,6 +234,7 @@
     width: 100%;
     padding: 55px 0 0px;
     margin: 0 auto;
+    text-align: center;
   }
 
   .title {
@@ -290,9 +296,10 @@
   .article__img {
     width: 100%;
     min-width: 320px;
-    height: auto;
+    /* height: auto; */
     min-height: 320px;
     margin: 0 0px;
+    overflow: hidden;
   }
   .article__img_bar {
     display: none;
@@ -309,7 +316,7 @@
     display: flex;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
-    justify-content: space-between;
+    justify-content: center;
   }
   .article__right {
     max-width: 100%;
@@ -349,6 +356,7 @@
     height: 8px;
     border-radius: 50%;
     border: 1px solid #ffffff;
+    margin: 4px;
   }
   .author__name {
     font-size: 18px;
