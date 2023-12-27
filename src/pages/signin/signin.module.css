@@ -41,6 +41,7 @@
   height: 21px;
   margin-bottom: 34px;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .modal__logo img {

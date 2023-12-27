@@ -27,7 +27,6 @@ function App() {
         })
       );
     } catch (error) {
-      console.log(error);
       if (error.mesage === "токен не рабочий") {
         navigate("/signin");
       }

@@ -11,6 +11,7 @@ import { useGetAdsCommentsQuery } from "../../store/productsApi";
 export const ProductArticle = ({ page = "product", product }) => {
   const [isOpen, setIsOpen] = useState("");
   const [mainImg, setMainImg] = useState(product?.images[0]?.url);
+  const [numberOfShowImg, setNumberOfShowImg] = useState(1);
   const comments = useGetAdsCommentsQuery({ id: product.id });
 
   const getModalForm = () => {
@@ -25,21 +26,34 @@ export const ProductArticle = ({ page = "product", product }) => {
     }
   };
 
+  const handleNextImg = () => {
+    if (window.innerWidth <= 768) {
+      if (numberOfShowImg < product?.images.length) {
+        setNumberOfShowImg(numberOfShowImg + 1);
+        setMainImg(product?.images[numberOfShowImg]?.url);
+      } else {
+        setNumberOfShowImg(1);
+        setMainImg(product?.images[0]?.url);
+      }
+    }
+  };
+
   return (
     <div className={s.main__artic}>
       <div className={s.artic__content}>
         <div className={s.article__left}>
           <div className={s.article__fill_img}>
-            <div className={s.article__img}>
+            <div className={s.article__img} onClick={handleNextImg}>
               <img
                 src={
-                  product?.images[0]?.url
+                  mainImg
                     ? `http://localhost:8090/${mainImg}`
                     : "/img/no-foto.png"
                 }
                 alt=""
               />
             </div>
+
             <div className={s.article__img_bar}>
               {product?.images.map((item) => (
                 <div
@@ -51,12 +65,17 @@ export const ProductArticle = ({ page = "product", product }) => {
                 </div>
               ))}
             </div>
+
             <div className={cn(s.article__img_bar_mob, s.img_bar_mob)}>
-              <div className={cn(s.img_bar_mob__circle, s.circle_active)}></div>
-              <div className={s.img_bar_mob__circle}></div>
-              <div className={s.img_bar_mob__circle}></div>
-              <div className={s.img_bar_mob__circle}></div>
-              <div className={s.img_bar_mob__circle}></div>
+              {product?.images.map((item) =>
+                item.id === product?.images[numberOfShowImg - 1].id ? (
+                  <div
+                    className={cn(s.img_bar_mob__circle, s.circle_active)}
+                  ></div>
+                ) : (
+                  <div className={s.img_bar_mob__circle}></div>
+                )
+              )}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAddProductTextMutation } from "../../store/productsApi";
 import s from "./addProduct.module.css";
 import cn from "classnames";
@@ -11,6 +11,15 @@ export const AddProduct = ({ onFormClose }) => {
   const [errorText, setErrorText] = useState("");
   const navigate = useNavigate();
   const [addProductText, { isLoading }] = useAddProductTextMutation();
+  const [activButton, setActivButton] = useState(false);
+
+  useEffect(() => {
+    if (!title || !description || !price) {
+      setActivButton(false);
+    } else {
+      setActivButton(true)
+    }
+  }, [title, description, price]);
 
   if (isLoading)
     return (
@@ -33,12 +42,11 @@ export const AddProduct = ({ onFormClose }) => {
 
       if (response.error?.status === 401) {
         navigate("/signin");
-      }
-
-      if (response.error?.status === 422) {
+      } else if (response.error?.status === 422) {
         setErrorText("введены не корректные данные");
+      } else {
+        navigate(`/my-ads/?id=${response.data?.id}`)
       }
-      navigate(`/my-ads/?id=${response.data?.id}`);
     }
   };
 
@@ -88,14 +96,8 @@ export const AddProduct = ({ onFormClose }) => {
             </div>
             <div className={s.form_newArt__block}>
               <p className={s.form_newArt__p}>
-                Фотографии товара<span>не более 5 фотографий</span>
+                Фотографии товара можно добавить на странице редактирования объявления
               </p>
-              <div className={s.form_newArt__bar_img}>
-                <div className={s.form_newArt__img}>
-                  <img src="" alt="" />
-                  <div className={s.form_newArt__img_cover}></div>
-                </div>
-              </div>
             </div>
             <div className={cn(s.form_newArt__block, s.block_price)}>
               <label htmlFor="price">Цена</label>
@@ -113,9 +115,10 @@ export const AddProduct = ({ onFormClose }) => {
             </div>
 
             <button
-              className={cn(s.form_newArt__btn_pub, s.btn_hov02)}
+              className={!activButton ? cn(s.form_newArt__btn_pub) : cn(s.form_newArt__btn_pub_activ, s.btn_hov02)}
               id="btnPublish"
               type="submit"
+              disabled={!activButton}
             >
               Опубликовать
             </button>

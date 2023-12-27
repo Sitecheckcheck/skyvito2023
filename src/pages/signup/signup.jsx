@@ -55,11 +55,10 @@ export const Signup = () => {
           id: user.id,
           phone: user.phone,
           sells_from: user.sells_from,
-          access_token: tokens.access_token,
-          refresh_token: tokens.refresh_token,
         })
       );
 
+      localStorage.setItem('tokenTime', new Date().getTime())
       localStorage.setItem("access_token", tokens.access_token.toString());
       localStorage.setItem("refresh_token", tokens.refresh_token.toString());
 

@@ -4,9 +4,11 @@ import { createPortal } from "react-dom";
 import { useState } from "react";
 import { Modal } from "../modal/modal";
 import { AddProduct } from "../../pages/addProduct/addProduct";
+import { useAuth } from "../../hooks/use-auth";
 
 export const Footer = () => {
   const [isOpen, setIsOpen] = useState("");
+  const { isAllowed } = useAuth();
 
   const getModalForm = () => {
     if (isOpen === "open") {
@@ -28,7 +30,7 @@ export const Footer = () => {
           {/* </NavLink> */}
         </div>
         <div className={styles.footer__img}>
-          <NavLink to="/profile" target="_self">
+          <NavLink to={isAllowed ? "/profile" : "/signin"} target="_self">
             <img src="/img/icon_03.png" alt="home" />
           </NavLink>
         </div>

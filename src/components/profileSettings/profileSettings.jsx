@@ -194,6 +194,9 @@ export const ProfileSettings = () => {
                     localStorage.removeItem("access_token");
                     localStorage.removeItem("refresh_token");
                     navigate("/");
+                    localStorage.removeItem("email");
+                    localStorage.removeItem("tokenTime");
+                    navigate("/");
                   }}
                 >
                   Выйти

@@ -10,8 +10,6 @@ export function useAuth() {
     phone,
     sells_from,
     id,
-    access_token,
-    refresh_token,
   } = useSelector((state) => state.user);
 
   return {
@@ -24,7 +22,5 @@ export function useAuth() {
     id,
     phone,
     sells_from,
-    access_token,
-    refresh_token,
   };
 }
