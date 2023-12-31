@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlise";
 import { getTokens } from "../../apiTokens";
-import { useLazyGetUserQuery } from "../../store/productsApi";
+import { useLazyGetMeProductsQuery, useLazyGetUserQuery } from "../../store/productsApi";
+import { setMyProducts } from "../../store/myProductsSlise";
 
 export const Signin = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export const Signin = () => {
   const [disabled, setDisabled] = useState(false);
 
   const [getUser] = useLazyGetUserQuery()
+  const [getMeProducts]= useLazyGetMeProductsQuery();
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -48,6 +50,12 @@ export const Signin = () => {
         })
       );
 
+      const products = await getMeProducts()
+      dispatch(
+        setMyProducts({
+          products: products.data,
+        })
+      );
       
       
       navigate("/");
@@ -91,8 +99,8 @@ export const Signin = () => {
               setErrorText("");
             }}
           />
-          <button className={s.modal__btn_enter} id="btnEnter" type="submit">
-            <span>Войти</span>
+          <button className={disabled ? s.modal__btn_enter_disabled : s.modal__btn_enter} id="btnEnter" type="submit">
+            <span>{disabled ? 'Loading...' : 'Войти'}</span>
           </button>
           <button
             className={s.modal__btn_signup}

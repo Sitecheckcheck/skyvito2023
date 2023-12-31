@@ -168,12 +168,12 @@ export const Signup = () => {
             }}
           />
           <button
-            className={s.modal__btn_signup_ent}
+            className={disabled ? s.modal__btn_signup_ent_disabled : s.modal__btn_signup_ent}
             id="btnSign"
             type="submit"
             disabled={disabled}
           >
-            <span>Зарегистрироваться</span>
+            <span>{disabled ? 'Loading...' : 'Зарегистрироваться'}</span>
           </button>
           <div className={s.error_box}>
             <p className={s.error_text}>{errorText}</p>
