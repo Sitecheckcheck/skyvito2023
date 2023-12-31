@@ -39,10 +39,8 @@ export const AddProduct = ({ onFormClose }) => {
         description,
         price,
       });
-
-      if (response.error?.status === 401) {
-        navigate("/signin");
-      } else if (response.error?.status === 422) {
+      console.log(response)
+      if (response.error?.status === 422) {
         setErrorText("введены не корректные данные");
       } else {
         navigate(`/my-ads/?id=${response.data?.id}`)

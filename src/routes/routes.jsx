@@ -12,10 +12,8 @@ import { Reviews } from "../pages/reviews/reviews";
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
 import { useAuth } from "../hooks/use-auth";
 
-
-
 export const AppRoutes = () => {
-  const user = useAuth();
+  const { isAllowed } = useAuth();
 
   return (
     <Routes>
@@ -23,7 +21,7 @@ export const AppRoutes = () => {
       <Route
         path="/profile"
         element={
-          <ProtectedRoute redirectPath="/" isAllowed={user.isAllowed}>
+          <ProtectedRoute redirectPath="/" isAllowed={isAllowed}>
             <ProfilePage />
           </ProtectedRoute>
         }

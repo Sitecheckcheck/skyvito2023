@@ -2,7 +2,14 @@ import { NavLink } from "react-router-dom";
 import s from "./sellerProfile.module.css";
 import { ArticleButton } from "../articleButton/articleButton";
 
-export const SellerProfile = () => {
+export const SellerProfile = ({
+  name,
+  surname,
+  city,
+  sells_from,
+  phone,
+  avatar,
+}) => {
   return (
     <div className={s.main__profile}>
       <div className={s.profile__content}>
@@ -12,14 +19,16 @@ export const SellerProfile = () => {
               <div className={s.seller__left}>
                 <div className={s.seller__img}>
                   <NavLink to="" target="_self">
-                    <img src="#" alt="" />
+                    <img src={`http://localhost:8090/${avatar}`} alt="" />
                   </NavLink>
                 </div>
               </div>
               <div className={s.seller__right}>
-                <h3 className={s.seller__title}>Кирилл Матвеев</h3>
-                <p className={s.seller__city}>Санкт-Петербург</p>
-                <p className={s.seller__inf}>Продает товары с августа 2021</p>
+                <h3 className={s.seller__title}>{name + " " + surname}</h3>
+                <p className={s.seller__city}>{city}</p>
+                <p
+                  className={s.seller__inf}
+                >{`Продает товары с ${sells_from}`}</p>
 
                 <div className={s.seller__img_mob_block}>
                   <div className={s.seller__img_mob}>
@@ -29,7 +38,7 @@ export const SellerProfile = () => {
                   </div>
                 </div>
 
-                <ArticleButton page="product" />
+                <ArticleButton page="product" phone={phone} />
               </div>
             </div>
           </div>

@@ -11,16 +11,28 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      state.email = action.payload.email;
-      state.name = action.payload.name;
-      state.surname = action.payload.surname;
-      state.city = action.payload.city;
-      state.avatar = action.payload.avatar;
-      state.id = action.payload.id;
-      state.phone = action.payload.phone;
-      state.sells_from = action.payload.sells_from;
-      state.access_token = action.payload.access_token;
-      state.refresh_token = action.payload.refresh_token;
+      const {
+        email,
+        name,
+        surname,
+        city,
+        avatar,
+        id,
+        phone,
+        sells_from,
+        access_token,
+        refresh_token,
+      } = action.payload;
+      state.email = email;
+      state.name = name;
+      state.surname = surname;
+      state.city = city;
+      state.avatar = avatar;
+      state.id = id;
+      state.phone = phone;
+      state.sells_from = sells_from;
+      state.access_token = access_token;
+      state.refresh_token = refresh_token;
     },
     removeUser(state) {
       state.email = null;

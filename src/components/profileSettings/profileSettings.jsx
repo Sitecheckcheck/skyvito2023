@@ -5,7 +5,7 @@ import { useAuth } from "../../hooks/use-auth";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeUser, setUser } from "../../store/userSlise";
-import { setAvatarUser, updateUser } from "../../api";
+import { useSetAvatarUserMutation, useUpdateUserMutation } from "../../store/productsApi";
 
 export const ProfileSettings = () => {
   const dispatch = useDispatch();
@@ -17,6 +17,8 @@ export const ProfileSettings = () => {
   const [activButton, setActivButton] = useState(false);
   const navigate = useNavigate();
   const filePicker = useRef(null);
+  const [updateUser] = useUpdateUserMutation();
+  const [setAvatarUser] = useSetAvatarUserMutation()
 
   useEffect(() => {
     if (!nameText && !cityText && !surnameText && !phoneText) {
@@ -28,26 +30,26 @@ export const ProfileSettings = () => {
     event.preventDefault();
 
     try {
-      const response = await updateUser(
+      const response = await updateUser({
         nameText,
-        surnameText,
         cityText,
-        phoneText
-      );
+        surnameText,
+        phoneText,
+      });
 
       dispatch(
         setUser({
-          email: response.email,
-          id: response.id,
-          sells_from: response.sells_from,
-          avatar: response.avatar,
-          name: response.name,
-          surname: response.surname,
-          city: response.city,
-          phone: response.phone,
+          email: response.data.email,
+          id: response.data.id,
+          sells_from: response.data.sells_from,
+          avatar: response.data.avatar,
+          name: response.data.name,
+          surname: response.data.surname,
+          city: response.data.city,
+          phone: response.data.phone,
         })
       );
-      setActivButton(false)
+      setActivButton(false);
     } catch (error) {
       if (error.message === "токен не рабочий") {
         navigate("/signin");
@@ -61,14 +63,14 @@ export const ProfileSettings = () => {
 
       dispatch(
         setUser({
-          email: response.email,
-          id: response.id,
-          sells_from: response.sells_from,
-          avatar: response.avatar,
-          name: response.name,
-          surname: response.surname,
-          city: response.city,
-          phone: response.phone,
+          email: response.data.email,
+          id: response.data.id,
+          sells_from: response.data.sells_from,
+          avatar: response.data.avatar,
+          name: response.data.name,
+          surname: response.data.surname,
+          city: response.data.city,
+          phone: response.data.phone,
         })
       );
     } catch (error) {
@@ -92,7 +94,10 @@ export const ProfileSettings = () => {
           <div className={s.settings__left}>
             <div className={s.settings__img}>
               <Link to="/profile" target="_self">
-                <img src={`http://localhost:8090/${avatar}`} alt="" />
+                <img
+                  src={avatar ? `http://localhost:8090/${avatar}` : null}
+                  alt=""
+                />
               </Link>
 
               <input

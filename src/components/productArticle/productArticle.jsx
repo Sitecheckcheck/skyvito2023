@@ -7,6 +7,7 @@ import { Reviews } from "../../pages/reviews/reviews";
 import { Modal } from "../modal/modal";
 import { DateBlock } from "../dateBlock/dateBlock";
 import { useGetAdsCommentsQuery } from "../../store/productsApi";
+import { Link } from "react-router-dom";
 
 export const ProductArticle = ({ page = "product", product }) => {
   const [isOpen, setIsOpen] = useState("");
@@ -38,6 +39,8 @@ export const ProductArticle = ({ page = "product", product }) => {
     }
   };
 
+  const surname = product?.user.surname ? product?.user.surname : "";
+  
   return (
     <div className={s.main__artic}>
       <div className={s.artic__content}>
@@ -71,9 +74,10 @@ export const ProductArticle = ({ page = "product", product }) => {
                 item.id === product?.images[numberOfShowImg - 1].id ? (
                   <div
                     className={cn(s.img_bar_mob__circle, s.circle_active)}
+                    key={item.id}
                   ></div>
                 ) : (
-                  <div className={s.img_bar_mob__circle}></div>
+                  <div className={s.img_bar_mob__circle} key={item.id}></div>
                 )
               )}
             </div>
@@ -103,12 +107,17 @@ export const ProductArticle = ({ page = "product", product }) => {
             />
 
             <div className={cn(s.article__author, s.author)}>
-              <div className={s.author__img}>
-                <img
-                  src={`http://localhost:8090/${product.user.avatar}`}
-                  alt=""
-                />
-              </div>
+              <Link
+                to={`/seller-profile/?id=${product?.user.id}&name=${product?.user.name}&avatar=${product?.user.avatar}&city=${product?.user.city}&sells_from=${product?.user.sells_from}&phone=${product?.user.phone}&surname=${surname}`}
+              >
+                <div className={s.author__img}>
+                  <img
+                    src={`http://localhost:8090/${product.user.avatar}`}
+                    alt=""
+                  />
+                </div>
+              </Link>
+
               <div className={s.author__cont}>
                 <p className={s.author__name}>{product?.user.name}</p>
                 <p className={s.author__about}>

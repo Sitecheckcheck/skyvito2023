@@ -2,9 +2,13 @@ import s from "./signup.module.css";
 import cn from "classnames";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addUser, getTokens } from "../../api";
+import { getTokens } from "../../apiTokens";
 import { setUser } from "../../store/userSlise";
 import { useDispatch } from "react-redux";
+import {
+  useAddUserMutation,
+  useLazyGetUserQuery,
+} from "../../store/productsApi";
 
 export const Signup = () => {
   const dispatch = useDispatch();
@@ -17,6 +21,8 @@ export const Signup = () => {
   const [errorText, setErrorText] = useState("");
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
+  const [addUser] = useAddUserMutation();
+  const [getUser] = useLazyGetUserQuery();
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -40,34 +46,45 @@ export const Signup = () => {
       return;
     }
 
-    try {
-      setDisabled(true);
-      const user = await addUser(email, password, name, surname, city);
-      const tokens = await getTokens(user.email, password);
+    setDisabled(true);
 
+    const user = await addUser({ email, password, name, surname, city });
+
+    if (user.error?.status === 400) {
+      setErrorText("такой пользователь уже есть");
+      return;
+    } else if (user.error?.status === 422) {
+      setErrorText("не корректные данные");
+      return;
+    } else if (user.error) {
+      setErrorText("ошибка сервера");
+      return;
+    }
+
+    const tokens = await getTokens(email, password);
+
+    localStorage.setItem("access_token", tokens.access_token.toString());
+    localStorage.setItem("refresh_token", tokens.refresh_token.toString());
+
+    const registerUser = await getUser();
+
+    registerUser?.data &&
       dispatch(
         setUser({
-          email: user.email,
-          name: user.name,
-          surname: user.surname,
-          city: user.city,
-          avatar: user.avatar,
-          id: user.id,
-          phone: user.phone,
-          sells_from: user.sells_from,
+          email: registerUser.data.email,
+          name: registerUser.data.name,
+          surname: registerUser.data.surname,
+          city: registerUser.data.city,
+          avatar: registerUser.data.avatar,
+          id: registerUser.data.id,
+          phone: registerUser.data.phone,
+          sells_from: registerUser.data.sells_from,
         })
       );
 
-      localStorage.setItem('tokenTime', new Date().getTime())
-      localStorage.setItem("access_token", tokens.access_token.toString());
-      localStorage.setItem("refresh_token", tokens.refresh_token.toString());
+    navigate("/");
 
-      navigate("/");
-    } catch (error) {
-      setErrorText(error.message);
-    } finally {
-      setDisabled(false);
-    }
+    setDisabled(false);
   };
 
   return (
@@ -90,6 +107,7 @@ export const Signup = () => {
             onChange={(event) => {
               setEmail(event.target.value);
               setErrorText("");
+              setDisabled(false);
             }}
           />
           <input
@@ -101,6 +119,7 @@ export const Signup = () => {
             onChange={(event) => {
               setPassword(event.target.value);
               setErrorText("");
+              setDisabled(false);
             }}
           />
           <input
@@ -112,6 +131,7 @@ export const Signup = () => {
             onChange={(event) => {
               setRepeatPassword(event.target.value);
               setErrorText("");
+              setDisabled(false);
             }}
           />
           <input
@@ -122,6 +142,7 @@ export const Signup = () => {
             placeholder="Имя (необязательно)"
             onChange={(event) => {
               setName(event.target.value);
+              setDisabled(false);
             }}
           />
           <input
@@ -132,6 +153,7 @@ export const Signup = () => {
             placeholder="Фамилия (необязательно)"
             onChange={(event) => {
               setSurname(event.target.value);
+              setDisabled(false);
             }}
           />
           <input
@@ -142,6 +164,7 @@ export const Signup = () => {
             placeholder="Город (необязательно)"
             onChange={(event) => {
               setCity(event.target.value);
+              setDisabled(false);
             }}
           />
           <button

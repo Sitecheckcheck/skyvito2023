@@ -51,12 +51,18 @@ export const ArticleButton = ({ page, phone, product }) => {
           className={cn(s.article__btn1, s.btn_hov02)}
           onClick={() => setShowTelefone(true)}
         >
-          {showTelefone ? (
-            <h3>{phone}</h3>
+          {phone !== "null" ? (
+            showTelefone ? (
+              <h3>{phone}</h3>
+            ) : (
+              <>
+                Показать&nbsp;телефон
+                <span>{phone?.substring(0, 4)}&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+              </>
+            )
           ) : (
             <>
-              Показать&nbsp;телефон
-              <span>{phone.substring(0, 4)}&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+              <span>нет телефона</span>
             </>
           )}
         </button>
