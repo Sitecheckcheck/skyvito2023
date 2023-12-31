@@ -30,7 +30,7 @@ export const AdsPage = () => {
             </div>
           </>
         ) : (
-          <h3 className={s.main__artic}>Loading...</h3>
+          <h1 className={s.main__artic}>Loading...</h1>
         )}
       </div>
 

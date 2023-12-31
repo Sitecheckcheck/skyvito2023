@@ -7,26 +7,15 @@ import { MainMenu } from "../../components/mainMenu/mainMenu";
 import { ProfileSettings } from "../../components/profileSettings/profileSettings";
 import { useAuth } from "../../hooks/use-auth";
 import { useMyProducts } from "../../hooks/use-myProducts";
-// import { useLazyGetMeProductsQuery } from "../../store/productsApi";
-// import { useNavigate } from "react-router-dom";
 
 export const ProfilePage = () => {
-  const { name } = useAuth();
+  const { name, email } = useAuth();
   const { products } = useMyProducts();
-  // const { data, isLoading, error } = useLazyGetMeProductsQuery();
 
-  // const navigate = useNavigate();
   const userName = name ? name : "Пользователь";
 
-  // if (isLoading)
-  //   return (
-  //     <h1 style={{ textAlign: "center", marginTop: "50px" }}>Loading...</h1>
-  //   );
 
-  // if (!isLoading && error?.status === 401) {
-  //   navigate("/signin");
-  // }
-
+if (email) {
   return (
     <>
       <Header isAllowed={true} />
@@ -44,4 +33,9 @@ export const ProfilePage = () => {
       <Footer />
     </>
   );
+} else {
+  return (<h1 style={{ textAlign: "center", marginTop: "50px" }}>Loading...</h1>)
+  
+}
+  
 };

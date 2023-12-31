@@ -40,7 +40,7 @@ export const ProductArticle = ({ page = "product", product }) => {
   };
 
   const surname = product?.user.surname ? product?.user.surname : "";
-  
+
   return (
     <div className={s.main__artic}>
       <div className={s.artic__content}>
@@ -119,7 +119,11 @@ export const ProductArticle = ({ page = "product", product }) => {
               </Link>
 
               <div className={s.author__cont}>
-                <p className={s.author__name}>{product?.user.name}</p>
+                <Link
+                  to={`/seller-profile/?id=${product?.user.id}&name=${product?.user.name}&avatar=${product?.user.avatar}&city=${product?.user.city}&sells_from=${product?.user.sells_from}&phone=${product?.user.phone}&surname=${surname}`}
+                >
+                  <p className={s.author__name}>{product?.user.name}</p>
+                </Link>
                 <p className={s.author__about}>
                   {`Продает товары с ${product?.user.sells_from}`}
                 </p>

@@ -22,11 +22,8 @@ export const EditProduct = ({ onFormClose, product }) => {
 
   const handleDelImg = async (url) => {
     setIsLoading(true);
-    const response = await deleteImg({ id: product.id, url: url });
+    await deleteImg({ id: product.id, url: url });
     setIsLoading(false);
-    if (response.error?.status === 401) {
-      navigate("/signin");
-    }
   };
 
   const handleUpload = async (file) => {
@@ -48,7 +45,7 @@ export const EditProduct = ({ onFormClose, product }) => {
 
   const handleEditProduct = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     if (!title || !description || !price) {
       setErrorText("Не все поля заполнены");
     } else {
@@ -63,6 +60,7 @@ export const EditProduct = ({ onFormClose, product }) => {
         navigate("/signin");
       }
       onFormClose();
+      setIsLoading(false);
     }
   };
 
