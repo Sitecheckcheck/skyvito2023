@@ -19,6 +19,7 @@ export const ProfileSettings = () => {
   const filePicker = useRef(null);
   const [updateUser] = useUpdateUserMutation();
   const [setAvatarUser] = useSetAvatarUserMutation()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!nameText && !cityText && !surnameText && !phoneText) {
@@ -28,6 +29,8 @@ export const ProfileSettings = () => {
 
   const handleUpdateUser = async (event) => {
     event.preventDefault();
+
+    setLoading(true)
 
     try {
       const response = await updateUser({
@@ -54,11 +57,14 @@ export const ProfileSettings = () => {
       if (error.message === "токен не рабочий") {
         navigate("/signin");
       }
+    } finally {
+      setLoading(false)
     }
   };
 
   const handleSetAvatar = async (file) => {
     try {
+      setLoading(true)
       const response = await setAvatarUser(file);
 
       dispatch(
@@ -75,6 +81,8 @@ export const ProfileSettings = () => {
       );
     } catch (error) {
       navigate("/signin");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -187,9 +195,9 @@ export const ProfileSettings = () => {
                   }
                   id="settings-btn"
                   type="submit"
-                  disabled={!activButton}
+                  disabled={!activButton || loading}
                 >
-                  Сохранить
+                  {loading ? "Загрузка..." : "Сохранить"}
                 </button>
                 <button
                   className={cn(s.settings__btn_activ, s.btn_hov02)}

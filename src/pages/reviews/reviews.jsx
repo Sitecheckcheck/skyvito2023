@@ -13,6 +13,7 @@ export const Reviews = ({ onFormClose, reviews, id }) => {
   const { isAllowed } = useAuth();
   const navigate = useNavigate();
   const [activButton, setActivButton] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!textComment) {
@@ -23,11 +24,13 @@ export const Reviews = ({ onFormClose, reviews, id }) => {
   }, [textComment]);
 
   const addComment = async () => {
+    setLoading(true)
     const response = await createComment({ id: id, textComment: textComment });
     if (response.error?.status === 401) {
       navigate("/signin");
     }
     onFormClose();
+    setLoading(false)
   };
 
   return (
@@ -63,9 +66,9 @@ export const Reviews = ({ onFormClose, reviews, id }) => {
                   className={!activButton ? cn(s.form_newArt__btn_pub) : cn(s.form_newArt__btn_pub_activ, s.btn_hov02)}
                   id="btnPublish"
                   onClick={addComment}
-                  disabled={!activButton}
+                  disabled={!activButton || loading}
                 >
-                  Опубликовать
+                  {loading ? "Загрузка..." : "Опубликовать"}
                 </button>
                 <div className={s.error_box}>
                   <p className={s.error_text}>{errorText}</p>
