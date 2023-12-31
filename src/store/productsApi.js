@@ -84,7 +84,6 @@ export const productsApi = createApi({
   tagTypes: ["ADS", "COMMENTS", "USER"],
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
-
     getUser: builder.query({
       query: () => {
         return {
@@ -277,13 +276,12 @@ export const productsApi = createApi({
 });
 
 export const {
-  useGetTokensMutation,
   useLazyGetUserQuery,
   useAddUserMutation,
   useUpdateUserMutation,
   useSetAvatarUserMutation,
   useGetAllProductsQuery,
-  useGetMeProductsQuery,
+  useLazyGetMeProductsQuery,
   useAddProductTextMutation,
   useGetOneProductQuery,
   useDeleteProductMutation,
