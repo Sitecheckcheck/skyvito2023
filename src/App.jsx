@@ -1,52 +1,42 @@
 import "./App.css";
 import { AppRoutes } from "./routes/routes";
 import { useEffect } from "react";
-import { getUser } from "./api";
 import { useDispatch } from "react-redux";
 import { setUser } from "./store/userSlise";
-import { useNavigate } from "react-router-dom";
+import { useLazyGetUserQuery } from "./store/productsApi";
 
 function App() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const getCurrentUser = async () => {
-    try {
-      const user = await getUser();
+  const [getUser] = useLazyGetUserQuery();
 
-      dispatch(
+   useEffect(() => {
+
+    localStorage.getItem('access_token') &&
+    getUser()
+    .then((res) => {
+
+      res.data && dispatch(
         setUser({
-          email: user.email,
-          name: user.name,
-          surname: user.surname,
-          city: user.city,
-          avatar: user.avatar,
-          id: user.id,
-          phone: user.phone,
-          sells_from: user.sells_from,
+          email: res.data.email,
+          name: res.data.name,
+          surname: res.data.surname,
+          city: res.data.city,
+          avatar: res.data.avatar,
+          id: res.data.id,
+          phone: res.data.phone,
+          sells_from: res.data.sells_from,
         })
       );
-    } catch (error) {
-      if (error.mesage === "токен не рабочий") {
-        navigate("/signin");
-      }
-      navigate("/");
-    }
-  };
+    })
 
-  useEffect(() => {
-    try {
-      getCurrentUser();
-    } catch (error) {
-      console.log(error);
-    }
   }, []); // eslint-disable-line
 
   return (
     <div className="App">
       <AppRoutes />
     </div>
-  );
+  )
 }
 
 export default App;

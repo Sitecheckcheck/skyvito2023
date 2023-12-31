@@ -36,7 +36,7 @@ export const ProfilePage = () => {
           <ProfileSettings />
         </div>
         <div className={s.main__content}>
-          <ProductsBox TitleBox="Мои товары" products={data} />
+          <ProductsBox TitleBox="Мои товары" products={data}/>
         </div>
       </div>
 

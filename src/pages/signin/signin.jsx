@@ -4,7 +4,8 @@ import cn from "classnames";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlise";
-import { getTokens, getUser } from "../../api";
+import { getTokens } from "../../apiTokens";
+import { useLazyGetUserQuery } from "../../store/productsApi";
 
 export const Signin = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ export const Signin = () => {
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
   const [disabled, setDisabled] = useState(false);
+
+  const [getUser] = useLazyGetUserQuery()
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -25,28 +28,28 @@ export const Signin = () => {
     try {
       setDisabled(true);
       const tokens = await getTokens(email, password);
-      
-      localStorage.setItem('access_token', tokens.access_token)
-      localStorage.setItem('refresh_token', tokens.refresh_token)
-      const user = await getUser();
 
+      
+      localStorage.setItem("access_token", tokens.access_token.toString());
+      localStorage.setItem("refresh_token", tokens.refresh_token.toString());
+      
+      const user = await getUser();
+      localStorage.setItem('email', user.data.email)
       dispatch(
         setUser({
-          email: user.email,
-          name: user.name,
-          surname: user.surname,
-          city: user.city,
-          avatar: user.avatar,
-          id: user.id,
-          phone: user.phone,
-          sells_from: user.sells_from,
+          email: user.data.email,
+          name: user.data.name,
+          surname: user.data.surname,
+          city: user.data.city,
+          avatar: user.data.avatar,
+          id: user.data.id,
+          phone: user.data.phone,
+          sells_from: user.data.sells_from,
         })
       );
 
-      localStorage.setItem('tokenTime', new Date().getTime())
-      localStorage.setItem("access_token", tokens.access_token.toString());
-      localStorage.setItem("refresh_token", tokens.refresh_token.toString());
-      localStorage.setItem("email", user.email);
+      
+      
       navigate("/");
     } catch (error) {
       setErrorText(error.message);

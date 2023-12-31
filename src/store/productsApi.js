@@ -1,36 +1,178 @@
-import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { removeUser } from "./userSlise";
+
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  const baseQuery = fetchBaseQuery({
+    baseUrl: "http://localhost:8090/",
+
+    prepareHeaders: (headers, { getState }) => {
+      const token = localStorage.getItem("access_token");
+
+      // console.debug("Использую токен из LS ", { token });
+
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+
+      return headers;
+    },
+  });
+
+  const result = await baseQuery(args, api, extraOptions);
+  // console.debug("Результат первого запроса", { result });
+
+  if (result?.error?.status !== 401) {
+    return result;
+  }
+
+  const forceLogout = () => {
+    // console.debug("Принудительная авторизация!");
+    localStorage.clear();
+    api.dispatch(removeUser());
+  };
+
+  const access_token = localStorage.getItem("access_token");
+  const refresh_token = localStorage.getItem("refresh_token");
+  // console.debug("Данные token в LS", { refresh_token });
+
+  if (!refresh_token) {
+    return forceLogout();
+  }
+
+  const refreshResult = await baseQuery(
+    {
+      url: "/auth/login/",
+      method: "PUT",
+      body: JSON.stringify({
+        access_token,
+        refresh_token,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    },
+    api,
+    extraOptions
+  );
+
+  if (refreshResult?.error?.status === 401) {
+    return forceLogout();
+  } else {
+    if (!refreshResult.data.access_token) {
+      return forceLogout();
+    }
+
+    localStorage.setItem("access_token", refreshResult.data.access_token);
+    localStorage.setItem("refresh_token", refreshResult.data.refresh_token);
+  }
+
+  // console.debug("Результат запроса на обновление токена", { newTokens });
+
+  const retryResult = await baseQuery(args, api, extraOptions);
+
+  if (retryResult?.error?.status === 401) {
+    return forceLogout();
+  }
+
+  // console.debug("Повторный запрос завершился успешно");
+
+  return retryResult;
+};
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
-  tagTypes: ["ADS", "COMMENTS"],
-  baseQuery: retry(fetchBaseQuery({
-    baseUrl: "http://localhost:8090/",
-  }), {maxRetries: 0,}),
+  tagTypes: ["ADS", "COMMENTS", "USER"],
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
+
+    getUser: builder.query({
+      query: () => {
+        return {
+          url: "/user",
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        };
+      },
+      providesTags: ["USER"],
+    }),
+
+    addUser: builder.mutation({
+      query: (body) => ({
+        url: "/auth/register",
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: body.email,
+          password: body.password,
+          name: body.name,
+          surname: body.surname,
+          city: body.city,
+        }),
+      }),
+    }),
+
+    updateUser: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/user",
+          method: "PATCH",
+          body: JSON.stringify({
+            name: body.nameText,
+            surname: body.surnameText,
+            city: body.cityText,
+            phone: body.phoneText,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      },
+      invalidatesTags: ["USER"],
+    }),
+
+    setAvatarUser: builder.mutation({
+      query: (body) => {
+        const formData = new FormData();
+        console.log(body.file);
+        formData.append("file", body);
+
+        return {
+          url: `/user/avatar`,
+          method: "POST",
+          body: formData,
+          headers: {
+            "Content-Type": undefined,
+          },
+        };
+      },
+      invalidatesTags: ["USER"],
+    }),
+
     getAllProducts: builder.query({
       query: () => "/ads",
-      providesTags: [{ type: "ADS", id: "LIST" }],
+      providesTags: ["ADS"],
     }),
 
     getOneProduct: builder.query({
       query: (id) => `/ads/${id}`,
-      providesTags: (result) => (result ? [{ type: "ADS", id: "LIST" }] : []),
+      providesTags: ["ADS"],
     }),
 
     getMeProducts: builder.query({
-      query:  () =>  {
-
+      query: () => {
         return {
           url: "/ads/me",
           method: "GET",
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         };
       },
-      extraOptions: { maxRetries: 0 },
-      providesTags: [{ type: "ADS", id: "LIST" }],
+      providesTags: ["ADS"],
     }),
 
     addProductText: builder.mutation({
@@ -39,7 +181,6 @@ export const productsApi = createApi({
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${body.access}`,
         },
         body: JSON.stringify({
           title: body.title,
@@ -47,78 +188,21 @@ export const productsApi = createApi({
           price: body.price,
         }),
       }),
-      invalidatesTags: (result) =>
-        result ? [{ type: "ADS", id: "LIST" }] : [{ type: "ADS", id: "LIST" }],
+      invalidatesTags: ["ADS"],
     }),
 
     deleteProduct: builder.mutation({
       query: (id) => {
-        const access_token = localStorage.getItem("access_token");
         return {
           url: `/ads/${id}`,
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
         };
       },
-      invalidatesTags: (result) =>
-        result ? [{ type: "ADS", id: "LIST" }] : [{ type: "ADS", id: "LIST" }],
-    }),
-
-    addProductImage: builder.mutation({
-      query: (body) => {
-        const access_token = localStorage.getItem("access_token");
-        const formData = new FormData();
-        console.log(body.file);
-        formData.append("file", body.file);
-
-        return {
-          url: `/ads/${body.id}/image`,
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-            "Content-Type": undefined,
-          },
-        };
-      },
-      invalidatesTags: (result) =>
-        result ? [{ type: "ADS", id: "LIST" }] : [{ type: "ADS", id: "LIST" }],
-    }),
-
-    deleteProductImage: builder.mutation({
-      query: (body) => {
-        const access_token = localStorage.getItem("access_token");
-
-        return {
-          url: `/ads/${body.id}/image/?${new URLSearchParams({
-            file_url: body.url,
-          })}`,
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        };
-      },
-      invalidatesTags: (result) =>
-        result ? [{ type: "ADS", id: "LIST" }] : [{ type: "ADS", id: "LIST" }],
-    }),
-
-    getAdsComments: builder.query({
-      query: (body) => {
-        return {
-          url: `/ads/${body.id}/comments`,
-          method: "GET",
-        };
-      },
-      providesTags: [{ type: "COMMENTS", id: "LIST" }],
+      invalidatesTags: ["ADS"],
     }),
 
     updateProduct: builder.mutation({
       query: (body) => {
-        const access_token = localStorage.getItem("access_token");
-
         return {
           url: `/ads/${body.id}`,
           method: "PATCH",
@@ -129,35 +213,75 @@ export const productsApi = createApi({
           }),
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token}`,
           },
         };
       },
-      invalidatesTags: (result) =>
-        result ? [{ type: "ADS", id: "LIST" }] : [],
+      invalidatesTags: ["ADS"],
+    }),
+
+    addProductImage: builder.mutation({
+      query: (body) => {
+        const formData = new FormData();
+        console.log(body.file);
+        formData.append("file", body.file);
+
+        return {
+          url: `/ads/${body.id}/image`,
+          method: "POST",
+          body: formData,
+          headers: {
+            "Content-Type": undefined,
+          },
+        };
+      },
+      invalidatesTags: ["ADS"],
+    }),
+
+    deleteProductImage: builder.mutation({
+      query: (body) => {
+        return {
+          url: `/ads/${body.id}/image/?${new URLSearchParams({
+            file_url: body.url,
+          })}`,
+          method: "DELETE",
+          headers: {},
+        };
+      },
+      invalidatesTags: ["ADS"],
+    }),
+
+    getAdsComments: builder.query({
+      query: (body) => {
+        return {
+          url: `/ads/${body.id}/comments`,
+          method: "GET",
+        };
+      },
+      providesTags: ["COMMENTS"],
     }),
 
     createComment: builder.mutation({
       query: (body) => {
-        const access_token = localStorage.getItem("access_token");
-
         return {
           url: `/ads/${body.id}/comments`,
           method: "POST",
           body: JSON.stringify({ text: body.textComment }),
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token}`,
           },
         };
       },
-      invalidatesTags: (result) =>
-        result ? [{ type: "COMMENTS", id: "LIST" }] : [],
+      invalidatesTags: ["COMMENTS"],
     }),
   }),
 });
 
 export const {
+  useGetTokensMutation,
+  useLazyGetUserQuery,
+  useAddUserMutation,
+  useUpdateUserMutation,
+  useSetAvatarUserMutation,
   useGetAllProductsQuery,
   useGetMeProductsQuery,
   useAddProductTextMutation,
