@@ -67,7 +67,7 @@ export const Signup = () => {
     localStorage.setItem("refresh_token", tokens.refresh_token.toString());
 
     const registerUser = await getUser();
-
+    localStorage.setItem('email', registerUser.data.email)
     registerUser?.data &&
       dispatch(
         setUser({

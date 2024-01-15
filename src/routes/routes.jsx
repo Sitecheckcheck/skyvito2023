@@ -10,9 +10,10 @@ import { AddProduct } from "../pages/addProduct/addProduct";
 import { EditProduct } from "../pages/editProduct/editProduct";
 import { Reviews } from "../pages/reviews/reviews";
 import { ProtectedRoute } from "../components/protectedRoute/ProtectedRoute";
+import { useAuth } from "../hooks/use-auth";
 
 export const AppRoutes = () => {
-  const isAllowed = !!localStorage.getItem("email")
+  const { isAllowed } = useAuth();
 
   return (
     <Routes>
