@@ -1,3 +1,4 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
 import s from "./sellerProfile.module.css";
 import { ArticleButton } from "../articleButton/articleButton";

@@ -8,6 +8,7 @@ import {
   useLazyGetUserQuery,
 } from "./store/productsApi";
 import { setMyProducts } from "./store/myProductsSlise";
+// import { Counter } from "./components/test";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function App() {
   return (
     <div className="App">
       <AppRoutes />
+      {/* <Counter/> */}
     </div>
   );
 }
