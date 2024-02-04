@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/Sitecheckcheck/skyvito2023/static/css/main.7f26b993.css",
-    "main.js": "/Sitecheckcheck/skyvito2023/static/js/main.436f158f.js",
-    "index.html": "/Sitecheckcheck/skyvito2023/index.html",
-    "main.7f26b993.css.map": "/Sitecheckcheck/skyvito2023/static/css/main.7f26b993.css.map",
-    "main.436f158f.js.map": "/Sitecheckcheck/skyvito2023/static/js/main.436f158f.js.map"
+    "main.css": "/skyvito2023/static/css/main.7f26b993.css",
+    "main.js": "/skyvito2023/static/js/main.436f158f.js",
+    "index.html": "/skyvito2023/index.html",
+    "main.7f26b993.css.map": "/skyvito2023/static/css/main.7f26b993.css.map",
+    "main.436f158f.js.map": "/skyvito2023/static/js/main.436f158f.js.map"
   },
   "entrypoints": [
     "static/css/main.7f26b993.css",
