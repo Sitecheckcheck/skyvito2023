@@ -17,7 +17,7 @@ export const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
+      <Route path="/skyvito2023" element={<MainPage />} />
       <Route
         path="/profile"
         element={
