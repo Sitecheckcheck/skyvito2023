@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/skyvito2023/static/css/main.bf849be0.css",
-    "main.js": "/skyvito2023/static/js/main.8c501689.js",
+    "main.css": "/skyvito2023/static/css/main.f506d7d5.css",
+    "main.js": "/skyvito2023/static/js/main.484bbbdb.js",
     "index.html": "/skyvito2023/index.html",
-    "main.bf849be0.css.map": "/skyvito2023/static/css/main.bf849be0.css.map",
-    "main.8c501689.js.map": "/skyvito2023/static/js/main.8c501689.js.map"
+    "main.f506d7d5.css.map": "/skyvito2023/static/css/main.f506d7d5.css.map",
+    "main.484bbbdb.js.map": "/skyvito2023/static/js/main.484bbbdb.js.map"
   },
   "entrypoints": [
-    "static/css/main.bf849be0.css",
-    "static/js/main.8c501689.js"
+    "static/css/main.f506d7d5.css",
+    "static/js/main.484bbbdb.js"
   ]
 }
