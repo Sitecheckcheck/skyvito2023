@@ -21,7 +21,7 @@ export const AppRoutes = () => {
       <Route
         path="/profile"
         element={
-          <ProtectedRoute redirectPath="/" isAllowed={isAllowed}>
+          <ProtectedRoute redirectPath="/skyvito2023" isAllowed={isAllowed}>
             <ProfilePage />
           </ProtectedRoute>
         }

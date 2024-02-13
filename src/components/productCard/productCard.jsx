@@ -20,7 +20,7 @@ export const ProductCard = ({ TitleBox, products }) => {
                   src={
                     item.images[0]?.url
                       ? `http://localhost:8090/${item.images[0]?.url}`
-                      : "/img/no-foto.png"
+                      : "skyvito2023/img/no-foto.png"
                   }
                   alt="product"
                 />

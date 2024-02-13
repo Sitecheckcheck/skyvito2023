@@ -22,13 +22,13 @@ export const Search = ({ products, setProductsShow }) => {
 
   return (
     <div className={s.main__search}>
-      <NavLink className={s.search__logo_link} to="/">
-        <img className={s.search__logo_img} src="/img/logo.png" alt="logo" />
+      <NavLink className={s.search__logo_link} to="/skyvito2023">
+        <img className={s.search__logo_img} src="skyvito2023/img/logo.png" alt="logo" />
       </NavLink>
-      <NavLink className={s.search__logo_mob_link} to="/">
+      <NavLink className={s.search__logo_mob_link} to="/skyvito2023">
         <img
           className={s.search__logo_mob_img}
-          src="/img/logo-mob.png"
+          src="skyvito2023/img/logo-mob.png"
           alt="logo"
         />
       </NavLink>

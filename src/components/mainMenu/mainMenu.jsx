@@ -7,8 +7,8 @@ export const MainMenu = () => {
 
   return (
     <div className={s.main__menu}>
-      <NavLink className={s.menu__logo_link} to="/">
-        <img className={s.menu__logo_img} src="/img/logo.png" alt="logo" />
+      <NavLink className={s.menu__logo_link} to="/skyvito2023">
+        <img className={s.menu__logo_img} src="skyvito2023/img/logo.png" alt="logo" />
       </NavLink>
       <form className={s.menu__form} action="#">
         <button

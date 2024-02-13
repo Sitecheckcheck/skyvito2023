@@ -51,7 +51,7 @@ export const ProductArticle = ({ page = "product", product }) => {
                 src={
                   mainImg
                     ? `http://localhost:8090/${mainImg}`
-                    : "/img/no-foto.png"
+                    : "skyvito2023/img/no-foto.png"
                 }
                 alt=""
               />
