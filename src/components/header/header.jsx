@@ -22,10 +22,10 @@ export const Header = ({ page = "notMain" }) => {
     <div className={page === "main" ? s.headerMainPage : s.header}>
       <nav className={s.header__nav}>
         <div className={s.header__logo}>
-          <NavLink className={s.logo_mob__link} to="/skyvito2023">
+          <NavLink className={s.logo_mob__link} to="/">
             <img
               className={s.logo_mob__img}
-              src="skyvito2023/img/logo-mob.png"
+              src="/img/logo-mob.png"
               alt="logo"
             />
           </NavLink>

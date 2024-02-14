@@ -17,11 +17,11 @@ export const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/skyvito2023" element={<MainPage />} />
+      <Route path="/" element={<MainPage />} />
       <Route
         path="/profile"
         element={
-          <ProtectedRoute redirectPath="/skyvito2023" isAllowed={isAllowed}>
+          <ProtectedRoute redirectPath="/" isAllowed={isAllowed}>
             <ProfilePage />
           </ProtectedRoute>
         }

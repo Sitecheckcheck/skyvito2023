@@ -206,10 +206,10 @@ export const ProfileSettings = () => {
                     dispatch(removeUser());
                     localStorage.removeItem("access_token");
                     localStorage.removeItem("refresh_token");
-                    navigate("/skyvito2023");
+                    navigate("/");
                     localStorage.removeItem("email");
                     localStorage.removeItem("tokenTime");
-                    navigate("/skyvito2023");
+                    navigate("/");
                   }}
                 >
                   Выйти

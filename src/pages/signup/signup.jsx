@@ -82,7 +82,7 @@ export const Signup = () => {
         })
       );
 
-    navigate("/skyvito2023");
+    navigate("/");
 
     setDisabled(false);
   };
@@ -95,8 +95,8 @@ export const Signup = () => {
           id="formLogIn"
           onSubmit={onSubmit}
         >
-          <div className={s.modal__logo} onClick={() => navigate("/skyvito2023")}>
-            <img src="skyvito2023/img/logo_modal.png" alt="logo" />
+          <div className={s.modal__logo} onClick={() => navigate("/")}>
+            <img src="/img/logo_modal.png" alt="logo" />
           </div>
           <input
             className={cn(s.modal__input, s.login)}

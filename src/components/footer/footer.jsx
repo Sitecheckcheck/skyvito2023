@@ -20,18 +20,18 @@ export const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.footer__container}>
         <div className={styles.footer__img}>
-          <NavLink to="/skyvito2023" target="_self">
-            <img src="skyvito2023/img/icon_01.png" alt="home" />
+          <NavLink to="/" target="_self">
+            <img src="/img/icon_01.png" alt="home" />
           </NavLink>
         </div>
         <div className={styles.footer__img} onClick={() => setIsOpen("open")}>
           {/* <NavLink to="/add-product" target="_self"> */}
-          <img src="skyvito2023/img/icon_02.png" alt="home" />
+          <img src="/img/icon_02.png" alt="home" />
           {/* </NavLink> */}
         </div>
         <div className={styles.footer__img}>
           <NavLink to={isAllowed ? "/profile" : "/signin"} target="_self">
-            <img src="skyvito2023/img/icon_03.png" alt="home" />
+            <img src="/img/icon_03.png" alt="home" />
           </NavLink>
         </div>
       </div>
