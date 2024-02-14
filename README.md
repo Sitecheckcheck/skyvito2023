@@ -3,7 +3,7 @@
 
 Описание проекта:
 
-https://sitecheckcheck.github.io//
+https://sitecheckcheck.github.io/skyvito2023/
 
 `skypro-avito` - это платформа для продажи и покупки товаров и услуг, частично аналогичная по функционалу с Avito. Проект разработан с использованием современных инструментов и технологий, таких как React, Redux Toolkit, CSS Modules и Docker.
 Основные функции:
